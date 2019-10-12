@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.home.HomePageFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home_page" />
+
+    <fragment
+        android:id="@+id/nav_football"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.football.FootballPageFragment"
+        android:label="@string/menu_football"
+        tools:layout="@layout/fragment_football_page" />
+
+    <fragment
+        android:id="@+id/nav_basketball"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.basketball.BasketballPageFragment"
+        android:label="@string/menu_basketball"
+        tools:layout="@layout/fragment_basketball_page" />
+
+    <fragment
+        android:id="@+id/nav_other"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.other.OtherPageFragment"
+        android:label="@string/menu_other"
+        tools:layout="@layout/fragment_other_page" />
+
+    <fragment
+        android:id="@+id/nav_serbia"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.serbia.SerbiaPageFragment"
+        android:label="@string/menu_serbia"
+        tools:layout="@layout/fragment_serbia_page" />
+
+    <fragment
+        android:id="@+id/nav_contact"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.contact.ContactPageFragment"
+        android:label="@string/menu_contact"
+        tools:layout="@layout/fragment_contact_page" />
+
+    <fragment
+        android:id="@+id/nav_shop"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.shop.ShopPageFragment"
+        android:label="@string/menu_contact"
+        tools:layout="@layout/fragment_contact_page" />
+
+</navigation>

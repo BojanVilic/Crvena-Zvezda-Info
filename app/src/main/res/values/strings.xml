@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Crvena Zvezda Info</string>
+    <string name="title_activity_main_page">Crvena zvezda info</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Crvena zvezda info</string>
+    <string name="nav_header_subtitle">sbdesignserbia@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Naslovna</string>
+    <string name="menu_football">Fudbal</string>
+    <string name="menu_basketball">Kosarka</string>
+    <string name="menu_other">Ostalo</string>
+    <string name="menu_serbia">Srbija</string>
+    <string name="menu_contact">Kontakt</string>
+    <string name="menu_shop">Shop</string>
 </resources>
