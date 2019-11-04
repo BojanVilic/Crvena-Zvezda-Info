@@ -7,7 +7,8 @@ object Model {
         val id: Int,
         val date: String,
         val title: Title,
-        val content: Content
+        val content: Content,
+        val featured_media: Int
     )
 
     data class Title (

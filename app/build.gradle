@@ -37,6 +37,8 @@ dependencies {
     def gson_version = "2.6.1"
     def coroutines_version = "1.3.1"
     def rxJava_version = "2.0.1"
+    def rxKotlin_version = "2.4.0"
+    def lifecycle_version = "2.1.0"
 
     //picasso
     implementation "com.squareup.picasso:picasso:$picasso_version"
@@ -52,6 +54,10 @@ dependencies {
 
     //rxjava
     implementation "io.reactivex.rxjava2:rxandroid:$rxJava_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+
+    //livedata
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

@@ -7,43 +7,43 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.bojanvilic.crvenazvezdainfo.ui.home.HomePageFragment"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomePageFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home_page" />
 
     <fragment
         android:id="@+id/nav_football"
-        android:name="com.bojanvilic.crvenazvezdainfo.ui.football.FootballPageFragment"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.football.FootballPageFragment"
         android:label="@string/menu_football"
         tools:layout="@layout/fragment_football_page" />
 
     <fragment
         android:id="@+id/nav_basketball"
-        android:name="com.bojanvilic.crvenazvezdainfo.ui.basketball.BasketballPageFragment"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.basketball.BasketballPageFragment"
         android:label="@string/menu_basketball"
         tools:layout="@layout/fragment_basketball_page" />
 
     <fragment
         android:id="@+id/nav_other"
-        android:name="com.bojanvilic.crvenazvezdainfo.ui.other.OtherPageFragment"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.other.OtherPageFragment"
         android:label="@string/menu_other"
         tools:layout="@layout/fragment_other_page" />
 
     <fragment
         android:id="@+id/nav_serbia"
-        android:name="com.bojanvilic.crvenazvezdainfo.ui.serbia.SerbiaPageFragment"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.serbia.SerbiaPageFragment"
         android:label="@string/menu_serbia"
         tools:layout="@layout/fragment_serbia_page" />
 
     <fragment
         android:id="@+id/nav_contact"
-        android:name="com.bojanvilic.crvenazvezdainfo.ui.contact.ContactPageFragment"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.contact.ContactPageFragment"
         android:label="@string/menu_contact"
         tools:layout="@layout/fragment_contact_page" />
 
     <fragment
         android:id="@+id/nav_shop"
-        android:name="com.bojanvilic.crvenazvezdainfo.ui.shop.ShopPageFragment"
+        android:name="com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.shop.ShopPageFragment"
         android:label="@string/menu_contact"
         tools:layout="@layout/fragment_contact_page" />
 

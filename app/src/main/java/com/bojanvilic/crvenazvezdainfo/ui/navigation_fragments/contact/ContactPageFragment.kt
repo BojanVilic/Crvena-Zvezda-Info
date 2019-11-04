@@ -1,4 +1,4 @@
-package com.bojanvilic.crvenazvezdainfo.ui.contact
+package com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.contact
 
 import android.os.Bundle
 import android.view.LayoutInflater

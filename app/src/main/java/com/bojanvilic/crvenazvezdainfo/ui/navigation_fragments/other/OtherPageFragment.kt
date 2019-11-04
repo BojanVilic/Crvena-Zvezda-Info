@@ -1,4 +1,4 @@
-package com.bojanvilic.crvenazvezdainfo.ui.football
+package com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.other
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,15 +10,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bojanvilic.crvenazvezdainfo.R
 
-class FootballPageFragment : Fragment() {
+class OtherPageFragment : Fragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_football_page, container, false)
-        val textView: TextView = root.findViewById(R.id.text_gallery)
+        val root = inflater.inflate(R.layout.fragment_other_page, container, false)
+        val textView: TextView = root.findViewById(R.id.text_tools)
         return root
     }
 }

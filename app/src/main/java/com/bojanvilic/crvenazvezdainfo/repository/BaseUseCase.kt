@@ -2,8 +2,9 @@ package com.bojanvilic.crvenazvezdainfo.repository
 
 import androidx.lifecycle.LiveData
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
+import io.reactivex.Observable
 
-interface IRepository {
+interface BaseUseCase {
 
-    fun getArticlesFromNetwork(): LiveData<List<Model.Article>>
+    fun execute() : LiveData<List<Model.Article>>
 }

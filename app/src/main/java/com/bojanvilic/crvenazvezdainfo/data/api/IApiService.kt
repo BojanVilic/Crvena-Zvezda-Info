@@ -2,6 +2,7 @@ package com.bojanvilic.crvenazvezdainfo.data.api
 
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.util.BASE_URL
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -13,9 +14,9 @@ import retrofit2.http.Path
 interface IApiService {
 
     @GET("wp-json/wp/v2/posts")
-    fun getArticlesList() : Observable<List<Model.Article>>
+    fun getArticlesList() : Flowable<List<Model.Article>>
 
-    //https://www.crvenazvezdainfo.com/wp-json/wp/v2/media/11896
+
     @GET("wp-json/wp/v2/media/{image_id}")
     fun getImage(@Path("image_id") image_id: Int) : Observable<Model.ImageModel>
 

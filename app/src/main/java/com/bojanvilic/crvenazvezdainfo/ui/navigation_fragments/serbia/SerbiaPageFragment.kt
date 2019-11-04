@@ -1,4 +1,4 @@
-package com.bojanvilic.crvenazvezdainfo.ui.basketball
+package com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.serbia
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +10,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bojanvilic.crvenazvezdainfo.R
 
+class SerbiaPageFragment : Fragment() {
 
-class BasketballPageFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
-
-        val root = inflater.inflate(R.layout.fragment_basketball_page, container, false)
-        val textView: TextView = root.findViewById(R.id.text_slideshow)
+        savedInstanceState: Bundle?
+    ): View? {
+        val root = inflater.inflate(R.layout.fragment_serbia_page, container, false)
+        val textView: TextView = root.findViewById(R.id.text_share)
         return root
     }
 }

@@ -1,4 +1,4 @@
-package com.bojanvilic.crvenazvezdainfo.ui.shop
+package com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.shop
 
 import android.os.Bundle
 import android.view.LayoutInflater
