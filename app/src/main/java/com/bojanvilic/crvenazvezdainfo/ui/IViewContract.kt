@@ -10,7 +10,6 @@ interface IViewContract {
     }
 
     interface ViewModel {
-        fun setArticles(article: LiveData<List<Model.Article>>)
 
     }
 

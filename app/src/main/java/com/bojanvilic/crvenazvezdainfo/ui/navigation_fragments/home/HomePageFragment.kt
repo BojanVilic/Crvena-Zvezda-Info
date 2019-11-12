@@ -14,13 +14,19 @@ import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.adapters.RecyclerViewAdapter
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.di.Injector
+import com.bojanvilic.crvenazvezdainfo.koin.appModule
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
 import com.bojanvilic.crvenazvezdainfo.viewmodel.ArticleViewModel
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.context.startKoin
 
 class HomePageFragment : Fragment(), IViewContract.View {
 
     lateinit var presenter: IViewContract.Presenter
-    lateinit var viewModel: ArticleViewModel
+    private val viewModel by viewModel<ArticleViewModel>()
     private var recyclerViewAdapter : RecyclerViewAdapter = RecyclerViewAdapter()
 
     override fun onCreateView(
@@ -29,17 +35,22 @@ class HomePageFragment : Fragment(), IViewContract.View {
         val root = inflater.inflate(R.layout.fragment_home_page, container, false)
         val layoutManager = GridLayoutManager(context, 3)
         val recyclerView : RecyclerView = root.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = layoutManager
 
-        viewModel = ViewModelProviders.of(this).get(ArticleViewModel::class.java)
         viewModel.getArticles().observe(this, Observer<List<Model.Article>> {
-            photos ->
+            articles ->
             run {
-                recyclerViewAdapter.readArticles(photos)
-                Log.d("PROBA", photos[0].title.toString())
+                recyclerViewAdapter.readArticles(articles)
             }
         })
-        //recyclerView.layoutManager = layoutManager
-        //recyclerView.adapter = recyclerViewAdapter
+
+        viewModel.getImage().observe(this, Observer<Model.ImageModel> {
+                photo ->
+            run {
+                recyclerView.adapter = recyclerViewAdapter
+                recyclerViewAdapter.readImage(photo)
+            }
+        })
         return root
     }
 

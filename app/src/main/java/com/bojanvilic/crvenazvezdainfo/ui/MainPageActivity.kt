@@ -18,12 +18,17 @@ import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.data.api.IApiService
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.di.Injector
+import com.bojanvilic.crvenazvezdainfo.koin.appModule
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomePageFragment
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 
 class MainPageActivity : AppCompatActivity() {
 
@@ -43,6 +48,13 @@ class MainPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
+
+        startKoin {
+            androidLogger()
+            androidContext(this@MainPageActivity)
+            modules(appModule)
+        }
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -69,38 +81,10 @@ class MainPageActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-
-    private fun readPosts() {
-
-        disposable = apiService.getArticlesList()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { result ->
-                    var i = 0
-                    while (i < result.size) {
-                        val decoded = HtmlCompat.fromHtml(result[0].content.article_text, HtmlCompat.FROM_HTML_MODE_LEGACY)
-                        Log.d("IMAGE", decoded.toString())
-                        i++
-                    }
-                },
-                { error -> Log.e("ERROR", error.message.toString()) }
-            )
+    override fun onDestroy() {
+        super.onDestroy()
+        stopKoin()
     }
-
-    private fun getImage(id: Int) {
-        disposable2 = apiService.getImage(id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { result ->
-                    Log.d("IMAGE", result.guid.imageUrl)
-                },
-                { error -> Log.e("ERROR", error.message.toString()) }
-            )
-
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main_page, menu)

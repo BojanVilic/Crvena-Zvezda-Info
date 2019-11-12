@@ -18,7 +18,7 @@ interface IApiService {
 
 
     @GET("wp-json/wp/v2/media/{image_id}")
-    fun getImage(@Path("image_id") image_id: Int) : Observable<Model.ImageModel>
+    fun getImage(@Path("image_id") image_id: Int) : Flowable<Model.ImageModel>
 
     companion object {
         fun create(): IApiService {
