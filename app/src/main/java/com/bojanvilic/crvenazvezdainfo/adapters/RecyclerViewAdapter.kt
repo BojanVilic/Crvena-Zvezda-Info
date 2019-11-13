@@ -5,7 +5,6 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
@@ -14,7 +13,7 @@ import kotlinx.android.synthetic.main.single_article_layout.view.*
 
 class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
-    lateinit var dataList : List<Model.Article>
+    var dataList : List<Model.Article> = ArrayList()
     var image : MutableList<Model.ImageModel> = mutableListOf()
 
     override fun onCreateViewHolder(
@@ -28,8 +27,8 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
         notifyDataSetChanged()
     }
 
-    fun readImage(image : Model.ImageModel) {
-        this.image.add(image)
+    fun readImage(image: List<Model.ImageModel>) {
+        this.image = image as MutableList
         notifyDataSetChanged()
     }
 

@@ -2,6 +2,7 @@ package com.bojanvilic.crvenazvezdainfo.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.bojanvilic.crvenazvezdainfo.data.api.IApiService
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
@@ -12,20 +13,24 @@ import io.reactivex.schedulers.Schedulers
 
 object RepositoryImpl : IRepository {
 
+    var imageList : MediatorLiveData<List<Model.ImageModel>> = MediatorLiveData()
+    var listOfImages : MutableList<Model.ImageModel> = ArrayList()
+    lateinit  var listOfArticles : LiveData<List<Model.Article>>
+
     private val apiService by lazy {
         IApiService.create()
     }
 
-    override fun getImagesFromNetwork(): LiveData<Model.ImageModel> {
-        return packImagesIntoList()
+    override fun getImagesFromNetwork(): MediatorLiveData<List<Model.ImageModel>> {
+        return imageList
     }
 
     override fun getArticlesFromNetwork() : LiveData<List<Model.Article>>{
-        return getListOfArticles()
+        return listOfArticles
     }
 
-    private fun getListOfArticles() : LiveData<List<Model.Article>> {
-        return LiveDataReactiveStreams.fromPublisher(apiService.getArticlesList().subscribeOn(Schedulers.io()))
+    override fun updateArticlesInfo() {
+        listOfArticles = LiveDataReactiveStreams.fromPublisher(apiService.getArticlesList().subscribeOn(Schedulers.io()))
     }
 
     private fun getListOfArticlesClean() : Flowable<List<Model.Article>> {
@@ -36,14 +41,15 @@ object RepositoryImpl : IRepository {
         return apiService.getImage(model.featured_media)
     }
 
-    private fun packImagesIntoList() : LiveData<Model.ImageModel>{
-        lateinit var listOfImages : LiveData<Model.ImageModel>
-        listOfImages = getListOfArticlesClean()
+    override fun updateImages() {
+        getListOfArticlesClean()
             .flatMapIterable { it }
             .flatMap { getListOfImages(it) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .to { LiveDataReactiveStreams.fromPublisher(it) }
-        return listOfImages
+            .subscribe { result ->
+                listOfImages.add(result)
+                imageList.postValue(listOfImages)
+            }
     }
 }
