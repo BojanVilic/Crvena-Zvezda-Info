@@ -2,6 +2,7 @@ package com.bojanvilic.crvenazvezdainfo.adapters
 
 import android.os.Build
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,21 +15,15 @@ import kotlinx.android.synthetic.main.single_article_layout.view.*
 class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     var dataList : List<Model.Article> = ArrayList()
-    var image : MutableList<Model.ImageModel> = mutableListOf()
 
     override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int): RecyclerViewAdapter.ViewHolder {
+        parent: ViewGroup, viewType: Int): ViewHolder {
         val view : View = LayoutInflater.from(parent.context).inflate(R.layout.single_article_layout, parent, false)
         return ViewHolder(view)
     }
 
     fun readArticles(articleList : List<Model.Article>){
         dataList = articleList
-        notifyDataSetChanged()
-    }
-
-    fun readImage(image: List<Model.ImageModel>) {
-        this.image = image as MutableList
         notifyDataSetChanged()
     }
 
@@ -43,9 +38,7 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
         } else {
             holder.title.text = Html.fromHtml(dataList.get(position).title.title)
         }
-        if(image.size > position) {
-            Picasso.get().load(image.get(position).guid.imageUrl).into(holder.image)
-        }
+        Picasso.get().load(dataList.get(position)._embedded.wpFeaturedmedia[0].source_url).into(holder.image)
     }
 
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view), View.OnClickListener {

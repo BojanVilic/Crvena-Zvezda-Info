@@ -18,7 +18,6 @@ class ShopPageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_serbia_page, container, false)
-        val textView: TextView = root.findViewById(R.id.text_share)
         return root
     }
 }

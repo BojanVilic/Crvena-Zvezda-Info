@@ -1,6 +1,7 @@
 package com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +14,12 @@ import com.bojanvilic.crvenazvezdainfo.adapters.RecyclerViewAdapter
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.di.Injector
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
-import com.bojanvilic.crvenazvezdainfo.viewmodel.ArticleViewModel
-import kotlinx.android.synthetic.main.fragment_home_page.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomePageFragment : Fragment(), IViewContract.View {
 
     lateinit var presenter: IViewContract.Presenter
-    private val viewModel by viewModel<ArticleViewModel>()
+    private val viewModel by viewModel<HomeViewModel>()
     private var recyclerViewAdapter : RecyclerViewAdapter = RecyclerViewAdapter()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -29,13 +28,6 @@ class HomePageFragment : Fragment(), IViewContract.View {
                 articles ->
             run {
                 recyclerViewAdapter.readArticles(articles)
-            }
-        })
-
-        viewModel.getImage().observe(this, Observer<List<Model.ImageModel>> {
-                photo ->
-            run {
-                recyclerViewAdapter.readImage(photo)
             }
         })
     }
@@ -59,9 +51,5 @@ class HomePageFragment : Fragment(), IViewContract.View {
         presenter = injector.providePresenter(this)
         presenter.bind()
         return this
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 }

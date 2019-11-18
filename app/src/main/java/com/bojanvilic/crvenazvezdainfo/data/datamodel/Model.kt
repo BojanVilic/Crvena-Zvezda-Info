@@ -8,7 +8,7 @@ object Model {
         val date: String,
         val title: Title,
         val content: Content,
-        val featured_media: Int
+        val _embedded: Embedded
     )
 
     data class Title (
@@ -21,12 +21,12 @@ object Model {
         val article_text: String
     )
 
-    data class ImageModel(
-        val guid: Guid
+    data class Embedded(
+        @SerializedName("wp:featuredmedia")
+        val wpFeaturedmedia: List<FeatureMediaItem>
     )
 
-    data class Guid(
-        @SerializedName("rendered")
-        val imageUrl: String
+    data class FeatureMediaItem(
+        val source_url: String
     )
 }

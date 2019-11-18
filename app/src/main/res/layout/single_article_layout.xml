@@ -11,6 +11,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@color/colorAccent"
+        android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,12 +22,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#AA444444"
+        android:fontFamily="@font/evogriaitalic"
         android:maxWidth="200dp"
-        app:layout_constraintStart_toStartOf="@+id/article_image"
-        app:layout_constraintEnd_toEndOf="@+id/article_image"
-        app:layout_constraintBottom_toBottomOf="@+id/article_image"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="91dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/article_image"
+        app:layout_constraintEnd_toEndOf="@+id/article_image"
+        app:layout_constraintStart_toStartOf="@+id/article_image" />
 </androidx.constraintlayout.widget.ConstraintLayout>
