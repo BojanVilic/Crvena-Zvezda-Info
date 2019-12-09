@@ -12,7 +12,6 @@ import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.adapters.RecyclerViewAdapter
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
-import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomeViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class FootballPageFragment : Fragment() {

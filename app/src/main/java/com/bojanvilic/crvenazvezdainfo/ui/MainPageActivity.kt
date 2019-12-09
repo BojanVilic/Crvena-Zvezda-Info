@@ -1,7 +1,6 @@
 package com.bojanvilic.crvenazvezdainfo.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -12,19 +11,11 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.FragmentManager
 import com.bojanvilic.crvenazvezdainfo.R
-import com.bojanvilic.crvenazvezdainfo.data.api.IApiService
-import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.di.Injector
 import com.bojanvilic.crvenazvezdainfo.koin.appModule
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomePageFragment
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -33,13 +24,6 @@ import org.koin.core.context.stopKoin
 class MainPageActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-
-    private var disposable: Disposable? = null
-    private var disposable2: Disposable? = null
-
-    private val apiService by lazy {
-        IApiService.create()
-    }
 
     companion object {
         const val VIEW: String = "VIEW"
@@ -73,8 +57,13 @@ class MainPageActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_football, R.id.nav_basketball,
-                R.id.nav_other, R.id.nav_serbia, R.id.nav_contact, R.id.nav_shop
+                R.id.nav_home,
+                R.id.nav_football,
+                R.id.nav_basketball,
+                R.id.nav_other,
+                R.id.nav_serbia,
+                R.id.nav_contact,
+                R.id.nav_shop
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -85,6 +74,7 @@ class MainPageActivity : AppCompatActivity() {
         super.onDestroy()
         stopKoin()
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main_page, menu)

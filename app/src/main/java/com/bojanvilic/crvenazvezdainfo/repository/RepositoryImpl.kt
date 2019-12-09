@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 
 object RepositoryImpl : IRepository {
 
-    lateinit  var listOfArticles : LiveData<List<Model.Article>>
+    private lateinit  var listOfArticles : LiveData<List<Model.Article>>
 
     private val apiService by lazy {
         IApiService.create()

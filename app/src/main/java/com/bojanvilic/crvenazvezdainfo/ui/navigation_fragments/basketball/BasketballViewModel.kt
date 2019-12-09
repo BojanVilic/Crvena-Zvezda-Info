@@ -14,7 +14,7 @@ class BasketballViewModel(private val repository : IRepository) : ViewModel(), I
         repository.updateArticlesInfo(Category.BASKETBALL)
     }
 
-    fun getArticles() : LiveData<List<Model.Article>> {
+    override fun getArticles() : LiveData<List<Model.Article>> {
         return repository.getArticlesFromNetwork()
     }
 

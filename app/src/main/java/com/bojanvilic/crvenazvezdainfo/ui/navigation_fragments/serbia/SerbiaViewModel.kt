@@ -14,7 +14,7 @@ class SerbiaViewModel(private val repository : IRepository) : ViewModel(), IView
         repository.updateArticlesInfo(Category.SERBIA)
     }
 
-    fun getArticles() : LiveData<List<Model.Article>> {
+    override fun getArticles() : LiveData<List<Model.Article>> {
         return repository.getArticlesFromNetwork()
     }
 }

@@ -1,7 +1,6 @@
 package com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +13,14 @@ import com.bojanvilic.crvenazvezdainfo.adapters.RecyclerViewAdapter
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.di.Injector
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomePageFragment : Fragment(), IViewContract.View {
 
     lateinit var presenter: IViewContract.Presenter
     private val viewModel by viewModel<HomeViewModel>()
+
     private var recyclerViewAdapter : RecyclerViewAdapter = RecyclerViewAdapter()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

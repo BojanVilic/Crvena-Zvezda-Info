@@ -3,7 +3,7 @@ package com.bojanvilic.crvenazvezdainfo.data.persistence
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "articles_table")
 data class ArticleModel(
 
     @PrimaryKey
@@ -11,5 +11,6 @@ data class ArticleModel(
     val date: String,
     val title: String,
     val content: String,
-    val imageUri: String
+    val imageUri: String,
+    val category: String
     )

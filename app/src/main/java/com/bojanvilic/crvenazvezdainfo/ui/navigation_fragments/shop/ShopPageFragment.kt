@@ -17,7 +17,7 @@ class ShopPageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_serbia_page, container, false)
+        val root = inflater.inflate(R.layout.fragment_shop_page, container, false)
         return root
     }
 }

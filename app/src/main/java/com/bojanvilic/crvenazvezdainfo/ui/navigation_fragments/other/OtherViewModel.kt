@@ -14,7 +14,7 @@ class OtherViewModel(private val repository : IRepository) : ViewModel(), IViewC
         repository.updateArticlesInfo(Category.OTHER)
     }
 
-    fun getArticles() : LiveData<List<Model.Article>> {
+    override fun getArticles() : LiveData<List<Model.Article>> {
         return repository.getArticlesFromNetwork()
     }
 }

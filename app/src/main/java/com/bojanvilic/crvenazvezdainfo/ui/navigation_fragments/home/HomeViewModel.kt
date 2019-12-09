@@ -14,7 +14,7 @@ class HomeViewModel(private val repository : IRepository) : ViewModel(), IViewCo
         repository.updateArticlesInfo(Category.HOME)
     }
 
-    fun getArticles() : LiveData<List<Model.Article>> {
+    override fun getArticles() : LiveData<List<Model.Article>> {
         return repository.getArticlesFromNetwork()
     }
 }
