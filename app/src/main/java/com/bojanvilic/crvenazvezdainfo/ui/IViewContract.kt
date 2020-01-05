@@ -1,16 +1,16 @@
 package com.bojanvilic.crvenazvezdainfo.ui
 
 import androidx.lifecycle.LiveData
-import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
+import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 
 interface IViewContract {
 
     interface View {
-        fun setScreenInfo()
+        //fun setScreenInfo()
     }
 
     interface ViewModel {
-        fun getArticles() : LiveData<List<Model.Article>>
+        fun getOnlineArticles() : LiveData<List<ArticleModelRoom>>
     }
 
     interface Presenter {

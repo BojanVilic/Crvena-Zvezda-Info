@@ -3,15 +3,25 @@ package com.bojanvilic.crvenazvezdainfo.data.persistence
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
+import io.reactivex.Completable
 
 @Dao
 interface ArticleDao {
 
     @Insert
-    fun insert(article: ArticleModel)
+    fun insert(articleRoomRoom: ArticleModelRoom) : Completable
 
-    @Query("SELECT * FROM articles_table")
-    fun getAllArticles() : LiveData<List<Model.Article>>
+    @Query("SELECT * FROM articles_table ORDER BY date DESC")
+    fun getAllArticles() : LiveData<List<ArticleModelRoom>>
+
+    @Query("SELECT * FROM articles_table WHERE id = :id")
+    fun getNoteById(id: Int): ArticleModelRoom
+
+    @Query("SELECT * FROM articles_table WHERE category = :category ORDER BY date DESC")
+    fun getNoteByCategory(category: String): LiveData<List<ArticleModelRoom>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(list: List<ArticleModelRoom>) : Completable
 }

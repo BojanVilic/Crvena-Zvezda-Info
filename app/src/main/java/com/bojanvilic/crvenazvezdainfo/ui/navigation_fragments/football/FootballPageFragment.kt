@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.adapters.RecyclerViewAdapter
-import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
+import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
+import com.bojanvilic.crvenazvezdainfo.util.ConnectivityCheck
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class FootballPageFragment : Fragment() {
@@ -35,7 +36,8 @@ class FootballPageFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getArticles().observe(this, Observer<List<Model.Article>> {
+        viewModel.connectivityAvailable = ConnectivityCheck.isConnected(context!!)
+        viewModel.getOnlineArticles().observe(this, Observer<List<ArticleModelRoom>> {
                 articles ->
             run {
                 recyclerViewAdapter.readArticles(articles)

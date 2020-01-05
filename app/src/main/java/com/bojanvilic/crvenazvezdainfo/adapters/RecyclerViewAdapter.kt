@@ -7,16 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bojanvilic.crvenazvezdainfo.R
-import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
+import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
+import com.google.android.gms.ads.AdRequest
 import com.squareup.picasso.Picasso
-import androidx.navigation.findNavController
+import kotlinx.android.synthetic.main.banner_ad_recyclerview.view.*
 import kotlinx.android.synthetic.main.single_article_layout.view.*
 
-class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
-    var dataList: List<Model.Article> = ArrayList()
+class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+    
+    var dataList: List<ArticleModelRoom> = ArrayList()
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -24,9 +27,10 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.single_article_layout, parent, false)
         return ViewHolder(view)
+
     }
 
-    fun readArticles(articleList: List<Model.Article>) {
+    fun readArticles(articleList: List<ArticleModelRoom>) {
         dataList = articleList
         notifyDataSetChanged()
     }
@@ -36,14 +40,15 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         if (Build.VERSION.SDK_INT >= 24) {
             holder.title.text =
-                Html.fromHtml(dataList.get(position).title.title, Html.FROM_HTML_MODE_LEGACY)
+                Html.fromHtml(dataList.get(position).title, Html.FROM_HTML_MODE_LEGACY)
         } else {
-            holder.title.text = Html.fromHtml(dataList.get(position).title.title)
+            holder.title.text = Html.fromHtml(dataList.get(position).title)
         }
-        Picasso.get().load(dataList.get(position)._embedded.wpFeaturedmedia[0].source_url)
-            .into(holder.image)
+
+        Picasso.get().load(dataList.get(position).imageUrl).into(holder.image)
 
         holder.itemView.setOnClickListener { view ->
             val bundle: Bundle = bundleOf()
@@ -54,7 +59,6 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         val title = view.article_title
         val image = view.article_image
     }

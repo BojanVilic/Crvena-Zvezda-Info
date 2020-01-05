@@ -1,0 +1,44 @@
+package com.bojanvilic.crvenazvezdainfo.interactor
+
+import android.annotation.SuppressLint
+import androidx.lifecycle.LiveData
+import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
+import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
+import com.bojanvilic.crvenazvezdainfo.repository.local_repository.ILocalRepository
+import com.bojanvilic.crvenazvezdainfo.repository.remote_repository.IRepository
+import com.bojanvilic.crvenazvezdainfo.util.Category
+import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+
+class Interactor(val remote: IRepository, val cache: ILocalRepository) : IInteractor {
+
+    lateinit var flowable: Flowable<List<Model.Article>>
+    private var newModelRoomList : MutableList<ArticleModelRoom> = arrayListOf()
+
+    @SuppressLint("CheckResult")
+    override fun synchronizeArticles(category: Category) {
+        flowable = remote.updateArticlesInfo(category)
+        flowable.toObservable()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe{
+                it.forEach {
+                    newModelRoomList.add(ArticleModelRoom(it.id, it.date, it.title.title, it.content.article_text, it._embedded.wpFeaturedmedia[0].source_url, it.categories[0].toString()))
+                }
+                cache.updateAll(newModelRoomList)
+            }
+    }
+
+    override fun getArticles(): LiveData<List<ArticleModelRoom>> {
+        return cache.getArticles()
+    }
+
+    override fun getArticlesByCategory(category: String): LiveData<List<ArticleModelRoom>> {
+        return cache.getArticleByCategory(category)
+    }
+
+    override fun getArticleId(id: Int): ArticleModelRoom {
+        return cache.getArticleId(id)
+    }
+}

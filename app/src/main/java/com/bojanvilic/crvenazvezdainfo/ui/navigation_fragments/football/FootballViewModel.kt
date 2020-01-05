@@ -1,20 +1,26 @@
 package com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.football
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
-import com.bojanvilic.crvenazvezdainfo.repository.IRepository
+import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
+import com.bojanvilic.crvenazvezdainfo.interactor.Interactor
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
 import com.bojanvilic.crvenazvezdainfo.util.Category
 
-class FootballViewModel(private val repository : IRepository) : ViewModel(), IViewContract.ViewModel {
+class FootballViewModel(private val interactor: Interactor) : ViewModel(), IViewContract.ViewModel {
+
+    var connectivityAvailable : Boolean = false
 
     init {
-        repository.updateArticlesInfo(Category.FOOTBALL)
+        if (connectivityAvailable) {
+            interactor.synchronizeArticles(Category.FOOTBALL)
+        }
     }
 
-    override fun getArticles() : LiveData<List<Model.Article>> {
-        return repository.getArticlesFromNetwork()
+    override fun getOnlineArticles() : LiveData<List<ArticleModelRoom>> {
+        if (connectivityAvailable) {
+            interactor.synchronizeArticles(Category.FOOTBALL)
+        }
+        return interactor.getArticlesByCategory("1")
     }
 }

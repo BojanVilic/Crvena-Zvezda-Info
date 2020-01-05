@@ -10,15 +10,13 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bojanvilic.crvenazvezdainfo.R
-import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
-import kotlinx.android.synthetic.main.horizontal_single_article_layout.view.*
-import kotlinx.android.synthetic.main.single_article_layout.view.*
+import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import kotlinx.android.synthetic.main.single_article_layout.view.article_title
 
 class DetailRecyclerViewAdapter : RecyclerView.Adapter<DetailRecyclerViewAdapter.ViewHolder>() {
 
-    var recommendedDataList: MutableList<Model.Article> = ArrayList()
-    var dataList : List<Model.Article> = ArrayList()
+    var recommendedDataList: MutableList<ArticleModelRoom> = ArrayList()
+    var dataList : List<ArticleModelRoom> = ArrayList()
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -28,7 +26,7 @@ class DetailRecyclerViewAdapter : RecyclerView.Adapter<DetailRecyclerViewAdapter
         return ViewHolder(view)
     }
 
-    fun readArticles(articleList: List<Model.Article>) {
+    fun readArticles(articleList: List<ArticleModelRoom>) {
         dataList = articleList
         recommendedDataList.clear()
         var i = 0
@@ -46,9 +44,9 @@ class DetailRecyclerViewAdapter : RecyclerView.Adapter<DetailRecyclerViewAdapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (Build.VERSION.SDK_INT >= 24) {
             holder.title.article_title.text =
-                Html.fromHtml(recommendedDataList.get(position).title.title, Html.FROM_HTML_MODE_LEGACY)
+                Html.fromHtml(recommendedDataList.get(position).title, Html.FROM_HTML_MODE_LEGACY)
         } else {
-            holder.title.article_title.text = Html.fromHtml(recommendedDataList.get(position).title.title)
+            holder.title.article_title.text = Html.fromHtml(recommendedDataList.get(position).title)
         }
         holder.title.setOnClickListener { view ->
             val bundle: Bundle = bundleOf()

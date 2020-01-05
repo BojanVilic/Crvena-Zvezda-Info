@@ -13,9 +13,8 @@ import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import androidx.fragment.app.FragmentManager
 import com.bojanvilic.crvenazvezdainfo.R
-import com.bojanvilic.crvenazvezdainfo.di.Injector
 import com.bojanvilic.crvenazvezdainfo.koin.appModule
-import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomePageFragment
+import com.google.android.gms.ads.MobileAds
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -39,15 +38,10 @@ class MainPageActivity : AppCompatActivity() {
             modules(appModule)
         }
 
+        MobileAds.initialize(this) {}
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        val manager: FragmentManager = this.supportFragmentManager
-
-        val view = manager.findFragmentByTag(VIEW) as HomePageFragment??: HomePageFragment.newInstance(
-            Injector(this)
-        )
-
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
