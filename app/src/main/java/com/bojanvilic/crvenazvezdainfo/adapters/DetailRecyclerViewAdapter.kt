@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.text.HtmlCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bojanvilic.crvenazvezdainfo.R
@@ -42,12 +43,7 @@ class DetailRecyclerViewAdapter : RecyclerView.Adapter<DetailRecyclerViewAdapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (Build.VERSION.SDK_INT >= 24) {
-            holder.title.article_title.text =
-                Html.fromHtml(recommendedDataList.get(position).title, Html.FROM_HTML_MODE_LEGACY)
-        } else {
-            holder.title.article_title.text = Html.fromHtml(recommendedDataList.get(position).title)
-        }
+        holder.title.article_title.text = HtmlCompat.fromHtml(recommendedDataList[position].title, HtmlCompat.FROM_HTML_MODE_COMPACT)
         holder.title.setOnClickListener { view ->
             val bundle: Bundle = bundleOf()
             bundle.putSerializable("article", dataList.get(position))

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.adapters.RecyclerViewAdapter
@@ -31,12 +32,7 @@ class HomePageFragment : Fragment(), IViewContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.connectivityAvailable = ConnectivityCheck.isConnected(context!!)
-        viewModel.getOnlineArticles().observe(this, Observer<List<ArticleModelRoom>> {
-                articles ->
-            run {
-                recyclerViewAdapter.readArticles(articles)
-            }
-        })
+        viewModel.getOnlineArticles().observe(this, Observer(recyclerViewAdapter::submitList))
     }
 
     override fun onCreateView(
@@ -47,9 +43,9 @@ class HomePageFragment : Fragment(), IViewContract.View {
         val recyclerView : RecyclerView = root.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = recyclerViewAdapter
-//        val mAdView : AdView = root.findViewById(R.id.adView)
-//        val adRequest = AdRequest.Builder().build()
-//        mAdView.loadAd(adRequest)
+        val mAdView : AdView = root.findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
         return root
     }
 }

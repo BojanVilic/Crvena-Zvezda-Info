@@ -12,6 +12,8 @@ import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.adapters.RecyclerViewAdapter
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.util.ConnectivityCheck
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -30,17 +32,15 @@ class BasketballPageFragment : Fragment() {
         val recyclerView : RecyclerView = root.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = recyclerViewAdapter
+        val mAdView : AdView = root.findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
         return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.connectivityAvailable = ConnectivityCheck.isConnected(context!!)
-        viewModel.getOnlineArticles().observe(this, Observer<List<ArticleModelRoom>> {
-                articles ->
-            run {
-                recyclerViewAdapter.readArticles(articles)
-            }
-        })
+        viewModel.getOnlineArticles().observe(this, Observer(recyclerViewAdapter::submitList))
     }
 }

@@ -11,19 +11,19 @@ import retrofit2.http.GET
 
 interface IApiService {
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=21")
+    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63")
     fun getArticlesList() : Flowable<List<Model.Article>>
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=21&categories=1")
+    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=1")
     fun getFootballArticlesList() : Flowable<List<Model.Article>>
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=21&categories=3")
+    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=3")
     fun getOtherArticlesList() : Flowable<List<Model.Article>>
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=21&categories=4")
+    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=4")
     fun getSerbiaArticlesList() : Flowable<List<Model.Article>>
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=21&categories=5")
+    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=5")
     fun getBasketballArticlesList() : Flowable<List<Model.Article>>
 
     companion object {

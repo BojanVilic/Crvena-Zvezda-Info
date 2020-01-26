@@ -1,6 +1,7 @@
 package com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.basketball
 
 import androidx.lifecycle.*
+import androidx.paging.PagedList
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.interactor.Interactor
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
@@ -16,11 +17,12 @@ class BasketballViewModel(private val interactor: Interactor) : ViewModel(), IVi
         }
     }
 
-    override fun getOnlineArticles() : LiveData<List<ArticleModelRoom>> {
+    override fun getOnlineArticles() : LiveData<PagedList<ArticleModelRoom>> {
         if (connectivityAvailable) {
             interactor.synchronizeArticles(Category.BASKETBALL)
         }
         return interactor.getArticlesByCategory("5")
     }
+
 
 }

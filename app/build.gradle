@@ -48,6 +48,7 @@ dependencies {
     def koin_version = "2.0.1"
     def room_version = "2.2.3"
     def admob_version = "18.3.0"
+    def paging_version = "2.1.1"
 
     //picasso
     implementation "com.squareup.picasso:picasso:$picasso_version"
@@ -76,9 +77,13 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.paging:paging-rxjava2:$paging_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
     //admob
     implementation "com.google.android.gms:play-services-ads:$admob_version"
+
+    implementation "org.sufficientlysecure:html-textview:3.9"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

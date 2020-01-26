@@ -2,6 +2,7 @@ package com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.football
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.interactor.Interactor
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
@@ -17,7 +18,7 @@ class FootballViewModel(private val interactor: Interactor) : ViewModel(), IView
         }
     }
 
-    override fun getOnlineArticles() : LiveData<List<ArticleModelRoom>> {
+    override fun getOnlineArticles() : LiveData<PagedList<ArticleModelRoom>> {
         if (connectivityAvailable) {
             interactor.synchronizeArticles(Category.FOOTBALL)
         }

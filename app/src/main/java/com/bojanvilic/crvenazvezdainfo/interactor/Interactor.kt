@@ -2,6 +2,7 @@ package com.bojanvilic.crvenazvezdainfo.interactor
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.repository.local_repository.ILocalRepository
@@ -10,6 +11,7 @@ import com.bojanvilic.crvenazvezdainfo.util.Category
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 
 class Interactor(val remote: IRepository, val cache: ILocalRepository) : IInteractor {
 
@@ -24,17 +26,21 @@ class Interactor(val remote: IRepository, val cache: ILocalRepository) : IIntera
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{
                 it.forEach {
-                    newModelRoomList.add(ArticleModelRoom(it.id, it.date, it.title.title, it.content.article_text, it._embedded.wpFeaturedmedia[0].source_url, it.categories[0].toString()))
+                    try {
+                        newModelRoomList.add(ArticleModelRoom(it.id, it.date, it.title.title, it.content.article_text, it._embedded.wpFeaturedmedia[0].source_url, it.categories[0].toString()))
+                    } catch (e : Exception){
+                        e.printStackTrace()
+                    }
                 }
                 cache.updateAll(newModelRoomList)
             }
     }
 
-    override fun getArticles(): LiveData<List<ArticleModelRoom>> {
+    override fun getArticles(): LiveData<PagedList<ArticleModelRoom>> {
         return cache.getArticles()
     }
 
-    override fun getArticlesByCategory(category: String): LiveData<List<ArticleModelRoom>> {
+    override fun getArticlesByCategory(category: String): LiveData<PagedList<ArticleModelRoom>> {
         return cache.getArticleByCategory(category)
     }
 
