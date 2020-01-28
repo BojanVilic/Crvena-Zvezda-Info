@@ -1,8 +1,6 @@
 package com.bojanvilic.crvenazvezdainfo.adapters
 
-import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +15,6 @@ import kotlinx.android.synthetic.main.single_article_layout.view.article_title
 class DetailRecyclerViewAdapter : RecyclerView.Adapter<DetailRecyclerViewAdapter.ViewHolder>() {
 
     var recommendedDataList: MutableList<ArticleModelRoom> = ArrayList()
-    var dataList : List<ArticleModelRoom> = ArrayList()
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -27,13 +24,18 @@ class DetailRecyclerViewAdapter : RecyclerView.Adapter<DetailRecyclerViewAdapter
         return ViewHolder(view)
     }
 
-    fun readArticles(articleList: List<ArticleModelRoom>) {
-        dataList = articleList
+    fun readArticles(articleList: List<ArticleModelRoom>, id: Int) {
         recommendedDataList.clear()
         var i = 0
-        while (i < 5) {
-            recommendedDataList.add(articleList.get(i))
-            i++
+        var articleCount = 5
+        while (i < articleCount) {
+            if (id != articleList[i].id) {
+                recommendedDataList.add(articleList[i])
+                i++
+            } else {
+                i++
+                articleCount++
+            }
         }
         notifyDataSetChanged()
     }
@@ -46,7 +48,7 @@ class DetailRecyclerViewAdapter : RecyclerView.Adapter<DetailRecyclerViewAdapter
         holder.title.article_title.text = HtmlCompat.fromHtml(recommendedDataList[position].title, HtmlCompat.FROM_HTML_MODE_COMPACT)
         holder.title.setOnClickListener { view ->
             val bundle: Bundle = bundleOf()
-            bundle.putSerializable("article", dataList.get(position))
+            bundle.putSerializable("article", recommendedDataList[position])
             view.findNavController()
                 .navigate(R.id.toSelf, bundle)
         }

@@ -11,6 +11,8 @@ interface IInteractor {
 
     fun getArticles() : LiveData<PagedList<ArticleModelRoom>>
 
+    fun getRecommenedArticles() : LiveData<List<ArticleModelRoom>>
+
     fun getArticlesByCategory(category: String) : LiveData<PagedList<ArticleModelRoom>>
 
     fun getArticleId(id : Int) : ArticleModelRoom

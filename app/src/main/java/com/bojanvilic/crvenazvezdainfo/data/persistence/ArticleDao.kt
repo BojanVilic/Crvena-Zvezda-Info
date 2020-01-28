@@ -14,8 +14,8 @@ interface ArticleDao {
     @Insert
     fun insert(articleRoomRoom: ArticleModelRoom) : Completable
 
-    @Query("SELECT * FROM articles_table ORDER BY date DESC")
-    fun getAllArticles() : LiveData<List<ArticleModelRoom>>
+    @Query("SELECT * FROM articles_table ORDER BY date DESC Limit 6")
+    fun getRecommendedArticles() : LiveData<List<ArticleModelRoom>>
 
     @Query("SELECT * FROM articles_table ORDER BY date DESC")
     fun getAllArticlesPaged() : DataSource.Factory<Int, ArticleModelRoom>

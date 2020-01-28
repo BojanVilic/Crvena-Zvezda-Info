@@ -40,6 +40,11 @@ class Interactor(val remote: IRepository, val cache: ILocalRepository) : IIntera
         return cache.getArticles()
     }
 
+    override fun getRecommenedArticles(): LiveData<List<ArticleModelRoom>> {
+        return cache.getRecommendedArticles()
+    }
+
+
     override fun getArticlesByCategory(category: String): LiveData<PagedList<ArticleModelRoom>> {
         return cache.getArticleByCategory(category)
     }

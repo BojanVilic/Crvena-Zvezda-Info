@@ -1,17 +1,11 @@
 package com.bojanvilic.crvenazvezdainfo.ui
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,10 +38,10 @@ class ArticleDetailViewFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.connectivityAvailable = ConnectivityCheck.isConnected(context!!)
-        viewModel.getOnlineArticles().observe(this, Observer<List<ArticleModelRoom>> {
+        viewModel.getRecommendedArticles().observe(this, Observer<List<ArticleModelRoom>> {
                 articles ->
             run {
-                recyclerViewAdapter.readArticles(articles)
+                recyclerViewAdapter.readArticles(articles, article.id)
             }
         })
     }

@@ -24,4 +24,10 @@ class HomeViewModel(private val interactor: Interactor) : ViewModel(), IViewCont
         }
         return interactor.getArticles()
     }
+
+    fun getRecommendedArticles(): LiveData<List<ArticleModelRoom>> {
+        return interactor.getRecommenedArticles()
+    }
+
+
 }

@@ -19,6 +19,10 @@ class LocalRepositoryImpl(private val articleDao: ArticleDao) : ILocalRepository
         return articleDao.getNoteById(id)
     }
 
+    override fun getRecommendedArticles(): LiveData<List<ArticleModelRoom>> {
+        return articleDao.getRecommendedArticles()
+    }
+
     override fun getArticleByCategory(category: String): LiveData<PagedList<ArticleModelRoom>> {
         return articleDao.getNoteByCategory(category).toLiveData(Config(pageSize = 35, enablePlaceholders = true, maxSize = 200))
     }

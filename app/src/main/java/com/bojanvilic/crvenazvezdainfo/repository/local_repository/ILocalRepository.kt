@@ -9,6 +9,8 @@ interface ILocalRepository {
 
     fun getArticleId(id: Int) : ArticleModelRoom
 
+    fun getRecommendedArticles() : LiveData<List<ArticleModelRoom>>
+
     fun getArticleByCategory(category: String) : LiveData<PagedList<ArticleModelRoom>>
 
     fun updateAll(list: List<ArticleModelRoom>)
