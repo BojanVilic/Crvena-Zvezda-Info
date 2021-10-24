@@ -14,8 +14,7 @@
         android:fontFamily="@font/evogriaitalic"
         android:textAlignment="textStart"
         android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="@+id/article_image"
-        app:layout_constraintEnd_toEndOf="@+id/article_image"
-        app:layout_constraintStart_toStartOf="@+id/article_image" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

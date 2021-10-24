@@ -1,6 +1,7 @@
 package com.bojanvilic.crvenazvezdainfo.interactor
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
@@ -24,16 +25,24 @@ class Interactor(val remote: IRepository, val cache: ILocalRepository) : IIntera
         flowable.toObservable()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{
-                it.forEach {
-                    try {
-                        newModelRoomList.add(ArticleModelRoom(it.id, it.date, it.title.title, it.content.article_text, it._embedded.wpFeaturedmedia[0].source_url, it.categories[0].toString()))
-                    } catch (e : Exception){
-                        e.printStackTrace()
-                    }
-                }
-                cache.updateAll(newModelRoomList)
+            .subscribe(this::onSuccess, this::onError)
+    }
+
+    private fun onSuccess(articlesList: List<Model.Article>) {
+        articlesList.forEach {
+            try {
+                newModelRoomList.add(ArticleModelRoom(it.id, it.date, it.title.title, it.content.article_text, it._embedded.wpFeaturedmedia[0].source_url, it.categories[0].toString()))
+            } catch (e : Exception){
+                e.printStackTrace()
             }
+        }
+        cache.updateAll(newModelRoomList)
+    }
+
+    private fun onError(e: Throwable?) {
+        if (e != null) {
+            Log.e("Error", e.message!!)
+        }
     }
 
     override fun getArticles(): LiveData<PagedList<ArticleModelRoom>> {

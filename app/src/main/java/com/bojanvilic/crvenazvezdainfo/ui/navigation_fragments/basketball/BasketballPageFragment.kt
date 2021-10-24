@@ -28,7 +28,7 @@ class BasketballPageFragment : Fragment() {
         savedInstanceState: Bundle?): View? {
 
         val root = inflater.inflate(R.layout.fragment_basketball_page, container, false)
-        val layoutManager = GridLayoutManager(context, 3)
+        val layoutManager = GridLayoutManager(context, 1)
         val recyclerView : RecyclerView = root.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = recyclerViewAdapter

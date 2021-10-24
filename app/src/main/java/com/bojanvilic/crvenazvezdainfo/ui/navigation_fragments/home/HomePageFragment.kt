@@ -39,7 +39,7 @@ class HomePageFragment : Fragment(), IViewContract.View {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_home_page, container, false)
-        val layoutManager = GridLayoutManager(context, 3)
+        val layoutManager = GridLayoutManager(context, 1)
         val recyclerView : RecyclerView = root.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = recyclerViewAdapter
