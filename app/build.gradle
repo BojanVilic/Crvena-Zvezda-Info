@@ -1,10 +1,11 @@
-apply plugin: 'com.android.application'
 
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-kapt'
-
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-android-extensions'
+}
 
 android {
 
@@ -36,6 +37,10 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes true
+}
+
 dependencies {
 
     def picasso_version = "2.71828"
@@ -49,6 +54,7 @@ dependencies {
     def room_version = "2.4.3"
     def admob_version = "21.3.0"
     def paging_version = "3.1.1"
+    def hilt_version = "2.44"
 
     //picasso
     implementation "com.squareup.picasso:picasso:$picasso_version"
@@ -84,6 +90,10 @@ dependencies {
 
     //html parser
     implementation "org.sufficientlysecure:html-textview:3.9"
+
+    //hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.5.1'
