@@ -3,7 +3,7 @@ package com.bojanvilic.crvenazvezdainfo.data.datamodel
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-object Model : Serializable{
+object Model : Serializable {
     data class Article(
         val id: Int,
         val date: String,

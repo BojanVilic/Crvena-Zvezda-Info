@@ -1,4 +1,4 @@
-package com.bojanvilic.crvenazvezdainfo.repository.local_repository
+package com.bojanvilic.crvenazvezdainfo.repositories.local_repository
 
 import android.annotation.SuppressLint
 import android.util.Log

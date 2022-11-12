@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
 
-interface IApiService {
+interface ArticleWebService {
 
     @GET("wp-json/wp/v2/posts?_embed=true&per_page=63")
     fun getArticlesList() : Flowable<List<Model.Article>>
@@ -27,14 +27,14 @@ interface IApiService {
     fun getBasketballArticlesList() : Flowable<List<Model.Article>>
 
     companion object {
-        fun create(): IApiService {
+        fun create(): ArticleWebService {
             val retrofit = Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BASE_URL)
                 .build()
 
-            return retrofit.create(IApiService::class.java)
+            return retrofit.create(ArticleWebService::class.java)
         }
     }
 }

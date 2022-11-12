@@ -1,6 +1,6 @@
-package com.bojanvilic.crvenazvezdainfo.repository.remote_repository
+package com.bojanvilic.crvenazvezdainfo.repositories.remote_repository
 
-import com.bojanvilic.crvenazvezdainfo.data.api.IApiService
+import com.bojanvilic.crvenazvezdainfo.data.api.ArticleWebService
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.util.Category
@@ -12,7 +12,7 @@ object RepositoryImpl : IRepository {
     private lateinit var flowable : Flowable<List<Model.Article>>
 
     private val apiService by lazy {
-        IApiService.create()
+        ArticleWebService.create()
     }
 
     override fun getArticlesFromNetwork() : MutableList<ArticleModelRoom> {

@@ -24,21 +24,9 @@ class MainPageActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    companion object {
-        const val VIEW: String = "VIEW"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
-
-        startKoin {
-            androidLogger()
-            androidContext(this@MainPageActivity)
-            modules(appModule)
-        }
-
-        MobileAds.initialize(this) {}
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)

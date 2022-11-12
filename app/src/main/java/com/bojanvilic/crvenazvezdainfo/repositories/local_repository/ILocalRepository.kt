@@ -1,4 +1,4 @@
-package com.bojanvilic.crvenazvezdainfo.repository.local_repository
+package com.bojanvilic.crvenazvezdainfo.repositories.local_repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList

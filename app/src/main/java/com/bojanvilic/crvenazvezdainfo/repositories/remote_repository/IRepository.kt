@@ -1,4 +1,4 @@
-package com.bojanvilic.crvenazvezdainfo.repository.remote_repository
+package com.bojanvilic.crvenazvezdainfo.repositories.remote_repository
 
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom

@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
-import com.bojanvilic.crvenazvezdainfo.repository.local_repository.ILocalRepository
-import com.bojanvilic.crvenazvezdainfo.repository.remote_repository.IRepository
+import com.bojanvilic.crvenazvezdainfo.repositories.local_repository.ILocalRepository
+import com.bojanvilic.crvenazvezdainfo.repositories.remote_repository.IRepository
 import com.bojanvilic.crvenazvezdainfo.util.Category
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers

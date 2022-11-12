@@ -2,12 +2,11 @@ package com.bojanvilic.crvenazvezdainfo.koin
 
 import androidx.room.Room
 import com.bojanvilic.crvenazvezdainfo.data.persistence.OfflineDatabase
-import com.bojanvilic.crvenazvezdainfo.interactor.IInteractor
 import com.bojanvilic.crvenazvezdainfo.interactor.Interactor
-import com.bojanvilic.crvenazvezdainfo.repository.local_repository.ILocalRepository
-import com.bojanvilic.crvenazvezdainfo.repository.remote_repository.IRepository
-import com.bojanvilic.crvenazvezdainfo.repository.local_repository.LocalRepositoryImpl
-import com.bojanvilic.crvenazvezdainfo.repository.remote_repository.RepositoryImpl
+import com.bojanvilic.crvenazvezdainfo.repositories.local_repository.ILocalRepository
+import com.bojanvilic.crvenazvezdainfo.repositories.remote_repository.IRepository
+import com.bojanvilic.crvenazvezdainfo.repositories.local_repository.LocalRepositoryImpl
+import com.bojanvilic.crvenazvezdainfo.repositories.remote_repository.RepositoryImpl
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.basketball.BasketballViewModel
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.football.FootballViewModel
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomeViewModel
