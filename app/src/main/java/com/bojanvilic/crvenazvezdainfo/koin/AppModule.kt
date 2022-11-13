@@ -4,12 +4,11 @@ import androidx.room.Room
 import com.bojanvilic.crvenazvezdainfo.data.persistence.OfflineDatabase
 import com.bojanvilic.crvenazvezdainfo.interactor.Interactor
 import com.bojanvilic.crvenazvezdainfo.repositories.local_repository.ILocalRepository
-import com.bojanvilic.crvenazvezdainfo.repositories.remote_repository.IRepository
 import com.bojanvilic.crvenazvezdainfo.repositories.local_repository.LocalRepositoryImpl
+import com.bojanvilic.crvenazvezdainfo.repositories.remote_repository.IRepository
 import com.bojanvilic.crvenazvezdainfo.repositories.remote_repository.RepositoryImpl
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.basketball.BasketballViewModel
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.football.FootballViewModel
-import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomeViewModel
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.other.OtherViewModel
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.serbia.SerbiaViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -32,8 +31,6 @@ val appModule = module {
     }
 
     single { Interactor(get(), get()) }
-
-    viewModel { HomeViewModel(get()) }
 
     viewModel { FootballViewModel(get()) }
 

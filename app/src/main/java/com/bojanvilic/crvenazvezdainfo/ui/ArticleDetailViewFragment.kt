@@ -2,20 +2,17 @@ package com.bojanvilic.crvenazvezdainfo.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.adapters.DetailRecyclerViewAdapter
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomeViewModel
-import com.bojanvilic.crvenazvezdainfo.util.ConnectivityCheck
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.squareup.picasso.Picasso
@@ -37,13 +34,13 @@ class ArticleDetailViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.connectivityAvailable = ConnectivityCheck.isConnected(context!!)
-        viewModel.getRecommendedArticles().observe(this, Observer<List<ArticleModelRoom>> {
-                articles ->
-            run {
-                recyclerViewAdapter.readArticles(articles, article.id)
-            }
-        })
+//        viewModel.connectivityAvailable = ConnectivityCheck.isConnected(requireContext())
+//        viewModel.getRecommendedArticles().observe(this, Observer<List<ArticleModelRoom>> {
+//                articles ->
+//            run {
+//                recyclerViewAdapter.readArticles(articles, article.id)
+//            }
+//        })
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

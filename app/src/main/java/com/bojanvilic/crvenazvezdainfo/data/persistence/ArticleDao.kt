@@ -1,12 +1,12 @@
 package com.bojanvilic.crvenazvezdainfo.data.persistence
 
-import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Completable
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDao {
@@ -15,7 +15,7 @@ interface ArticleDao {
     fun insert(articleRoomRoom: ArticleModelRoom) : Completable
 
     @Query("SELECT * FROM articles_table ORDER BY date DESC Limit 6")
-    fun getRecommendedArticles() : LiveData<List<ArticleModelRoom>>
+    fun getRecommendedArticles() : Flow<List<ArticleModelRoom>>
 
     @Query("SELECT * FROM articles_table ORDER BY date DESC")
     fun getAllArticlesPaged() : DataSource.Factory<Int, ArticleModelRoom>

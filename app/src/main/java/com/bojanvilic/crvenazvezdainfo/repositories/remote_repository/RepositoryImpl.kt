@@ -21,11 +21,14 @@ object RepositoryImpl : IRepository {
 
     override fun updateArticlesInfo(category: Category): Flowable<List<Model.Article>> {
         flowable = when(category){
-            Category.HOME -> apiService.getArticlesList()
+//            Category.HOME -> apiService.getArticlesList()
             Category.FOOTBALL -> apiService.getFootballArticlesList()
             Category.BASKETBALL -> apiService.getBasketballArticlesList()
             Category.OTHER -> apiService.getOtherArticlesList()
             Category.SERBIA -> apiService.getSerbiaArticlesList()
+            else -> {
+                apiService.getBasketballArticlesList()
+            }
         }
 
         return flowable

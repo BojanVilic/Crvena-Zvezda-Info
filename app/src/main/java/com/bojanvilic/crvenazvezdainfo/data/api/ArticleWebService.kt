@@ -12,7 +12,7 @@ import retrofit2.http.GET
 interface ArticleWebService {
 
     @GET("wp-json/wp/v2/posts?_embed=true&per_page=63")
-    fun getArticlesList() : Flowable<List<Model.Article>>
+    suspend fun getArticlesList(): List<Model.Article>
 
     @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=1")
     fun getFootballArticlesList() : Flowable<List<Model.Article>>

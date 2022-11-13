@@ -12,7 +12,6 @@ import com.bojanvilic.crvenazvezdainfo.util.Category
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.lang.Exception
 
 class Interactor(val remote: IRepository, val cache: ILocalRepository) : IInteractor {
 
@@ -49,9 +48,9 @@ class Interactor(val remote: IRepository, val cache: ILocalRepository) : IIntera
         return cache.getArticles()
     }
 
-    override fun getRecommenedArticles(): LiveData<List<ArticleModelRoom>> {
-        return cache.getRecommendedArticles()
-    }
+//    override fun getRecommenedArticles(): LiveData<List<ArticleModelRoom>> {
+//        return cache.getRecommendedArticles()
+//    }
 
 
     override fun getArticlesByCategory(category: String): LiveData<PagedList<ArticleModelRoom>> {
