@@ -35,7 +35,7 @@ class Interactor(val remote: IRepository, val cache: ILocalRepository) : IIntera
                 e.printStackTrace()
             }
         }
-        cache.updateAll(newModelRoomList)
+//        cache.updateAll(newModelRoomList)
     }
 
     private fun onError(e: Throwable?) {

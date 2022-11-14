@@ -27,5 +27,5 @@ interface ArticleDao {
     fun getNoteByCategory(category: String): DataSource.Factory<Int, ArticleModelRoom>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(list: List<ArticleModelRoom>) : Completable
+    fun insertAll(list: List<ArticleModelRoom>)
 }

@@ -11,5 +11,5 @@ interface ILocalRepository {
 
     fun getArticleByCategory(category: String) : LiveData<PagedList<ArticleModelRoom>>
 
-    fun updateAll(list: List<ArticleModelRoom>)
+//    fun updateAll(list: List<ArticleModelRoom>)
 }
