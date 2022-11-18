@@ -10,14 +10,12 @@
 
     <string name="menu_home">Naslovna</string>
     <string name="menu_football">Fudbal</string>
-    <string name="menu_basketball">Kosarka</string>
+    <string name="menu_basketball">Košarka</string>
     <string name="menu_other">Ostalo</string>
     <string name="menu_serbia">Srbija</string>
     <string name="menu_contact">Kontakt</string>
     <string name="menu_shop">Shop</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="contact_intro_string">Ovde možete da se obratite našim administratorima. Popunite polja ispod sa vašim predlogom, ponudom ili pitanjem.</string>
     <string name="name_contact_hint">Vaše ime (obavezno):</string>
     <string name="email_contact_hint">Vaša email adresa (obavezno):</string>

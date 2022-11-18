@@ -61,6 +61,7 @@ dependencies {
     def admob_version = "21.3.0"
     def paging_version = "3.1.1"
     def hilt_version = "2.44"
+    def compose_viewmodel_version = "2.5.1"
     def composeBom = platform('androidx.compose:compose-bom:2022.10.00')
     def coil_version = "2.2.2"
     def timber_version ="5.0.1"
@@ -108,6 +109,7 @@ dependencies {
     implementation composeBom
     androidTestImplementation composeBom
     implementation 'androidx.compose.material3:material3'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$compose_viewmodel_version"
     // Android Studio Preview support
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'

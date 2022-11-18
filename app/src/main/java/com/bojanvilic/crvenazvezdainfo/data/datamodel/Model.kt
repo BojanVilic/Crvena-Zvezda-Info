@@ -10,7 +10,8 @@ object Model : Serializable {
         val title: Title,
         val content: Content,
         val _embedded: Embedded,
-        val categories: List<Int>
+        val categories: List<Int>,
+        val excerpt: Excerpt
     ) : Serializable
 
     data class Title (
@@ -31,4 +32,8 @@ object Model : Serializable {
     data class FeatureMediaItem(
         val source_url: String
     ) : Serializable
+
+    data class Excerpt(
+        val rendered: String
+    )
 }

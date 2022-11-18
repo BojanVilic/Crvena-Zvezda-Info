@@ -1,6 +1,7 @@
 package com.bojanvilic.crvenazvezdainfo.injection
 
 import com.bojanvilic.crvenazvezdainfo.repositories.ArticleRepository
+import com.bojanvilic.crvenazvezdainfo.ui.ArticlesViewModel
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomeViewModel
 import dagger.Module
 import dagger.Provides
@@ -16,5 +17,12 @@ object ViewModelModule {
         articleRepository: ArticleRepository
     ): HomeViewModel {
         return HomeViewModel(articleRepository)
+    }
+
+    @Provides
+    fun getArticlesViewModel(
+        articleRepository: ArticleRepository
+    ): ArticlesViewModel {
+        return ArticlesViewModel(articleRepository)
     }
 }

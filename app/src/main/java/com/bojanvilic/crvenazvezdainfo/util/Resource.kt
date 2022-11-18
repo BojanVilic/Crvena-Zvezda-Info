@@ -1,10 +1,25 @@
 package com.bojanvilic.crvenazvezdainfo.util
 
-sealed class Resource<T>(
-    val data: T?,
-    val error: Throwable? = null
-) {
-    class Success<T>(data: T): Resource<T>(data)
-    class Loading<T>(data: T?): Resource<T>(data)
-    class Error<T>(data: T? = null, throwable: Throwable): Resource<T>(data, throwable)
+class Resource<out T>(
+    var status: Status?,
+    val data: T,
+    val throwable: Throwable? = null) {
+    companion object {
+
+        fun <T> loading(data: T): Resource<T> {
+            return Resource(Status.LOADING, data)
+        }
+
+        fun <T> success(data: T): Resource<T> {
+            return Resource(Status.SUCCESS, data)
+        }
+
+        fun <T> error(data: T, throwable: Throwable?): Resource<T> {
+            return Resource(Status.ERROR, data, throwable)
+        }
+
+        fun <X> newResource(status: Status?, data: X, throwable: Throwable?): Resource<X> {
+            return Resource(status, data, throwable)
+        }
+    }
 }

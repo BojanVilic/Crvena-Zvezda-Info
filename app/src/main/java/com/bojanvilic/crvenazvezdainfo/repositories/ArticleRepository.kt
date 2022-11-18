@@ -33,23 +33,9 @@ class ArticleRepository @Inject constructor(
                 return articleDao.getRecommendedArticles()
             }
 
-            override suspend fun saveCallResult(remoteType: List<Model.Article>) {
-                val result: MutableList<ArticleModelRoom> = ArrayList()
-                for (element in remoteType) {
-                    result.add(
-                        ArticleModelRoom(
-                            element.id,
-                            element.date,
-                            element.title.title,
-                            element.content.article_text,
-                            element._embedded.wpFeaturedmedia[0].source_url,
-                            element.categories[0].toString()
-                        )
-                    )
-                }
-
+            override suspend fun saveCallResult(data: List<ArticleModelRoom>) {
                 withContext(Dispatchers.IO) {
-                    articleDao.insertAll(result)
+                    articleDao.insertAll(data)
                 }
             }
 
@@ -59,12 +45,13 @@ class ArticleRepository @Inject constructor(
                     for (element in it) {
                         result.add(
                             ArticleModelRoom(
-                                element.id,
-                                element.date,
-                                element.title.title,
-                                element.content.article_text,
-                                element._embedded.wpFeaturedmedia[0].source_url,
-                                element.categories[0].toString()
+                                id = element.id,
+                                date = element.date,
+                                title = element.title.title,
+                                content = element.content.article_text,
+                                imageUrl = element._embedded.wpFeaturedmedia[0].source_url,
+                                category = element.categories[0].toString(),
+                                excerpt = element.excerpt.rendered
                             )
                         )
                     }

@@ -9,14 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bojanvilic.crvenazvezdainfo.adapters.RecyclerViewAdapter
 import com.bojanvilic.crvenazvezdainfo.theme.AppTheme
+import com.bojanvilic.crvenazvezdainfo.ui.ArticlesViewModel
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
-import com.bojanvilic.crvenazvezdainfo.ui.components.ArticleContent
+import com.bojanvilic.crvenazvezdainfo.ui.components.ArticlesScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomePageFragment : Fragment(), IViewContract.View {
 
-    private val viewModel by viewModels<HomeViewModel>()
+    private val articlesViewModel by viewModels<ArticlesViewModel>()
 
     private var recyclerViewAdapter : RecyclerViewAdapter = RecyclerViewAdapter()
 
@@ -30,9 +31,7 @@ class HomePageFragment : Fragment(), IViewContract.View {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme {
-                    ArticleContent() {
-
-                    }
+                    ArticlesScreen(articlesViewModel)
                 }
             }
         }
@@ -47,10 +46,5 @@ class HomePageFragment : Fragment(), IViewContract.View {
 //        val adRequest = AdRequest.Builder().build()
 //        mAdView.loadAd(adRequest)
 //        return root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.init()
     }
 }

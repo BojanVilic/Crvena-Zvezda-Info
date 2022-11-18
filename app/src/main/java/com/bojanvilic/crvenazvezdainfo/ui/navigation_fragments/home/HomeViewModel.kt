@@ -15,17 +15,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-        }
-    }
-
-    fun init() {
-        viewModelScope.launch {
-//            articleRepository.getLatestArticles().map { resource ->
-//                resource.data?.let {
-//                    Timber.d("PROBA: ${it[0].title}")
-//                }
-//            }
-            
             articleRepository.getLatestArticles()
             articleRepository.getLatestArticles().collect { resource ->
                 resource.data?.let {

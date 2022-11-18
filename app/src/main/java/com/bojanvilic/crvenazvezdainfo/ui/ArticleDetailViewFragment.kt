@@ -1,7 +1,6 @@
 package com.bojanvilic.crvenazvezdainfo.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,14 +68,14 @@ class ArticleDetailViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        title_text.setText(HtmlCompat.fromHtml(article.title, HtmlCompat.FROM_HTML_MODE_COMPACT))
+        title_text.setText(article.title?.let { HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_COMPACT) })
 
         Picasso.get().load(article.imageUrl).into(article_image)
-        val contentText = article.content.split("</p>".toRegex(), 2)
-        article_first_paragraph_text.setText(HtmlCompat.fromHtml(contentText[0] , HtmlCompat.FROM_HTML_MODE_COMPACT))
-        htmlTextView.setHtml(contentText[1], HtmlHttpImageGetter(htmlTextView))
+        val contentText = article.content?.split("</p>".toRegex(), 2)
+        article_first_paragraph_text.setText(HtmlCompat.fromHtml(contentText?.get(0) ?: "", HtmlCompat.FROM_HTML_MODE_COMPACT))
+        htmlTextView.setHtml(contentText?.get(1) ?: "", HtmlHttpImageGetter(htmlTextView))
 
-        Log.d("ARTICLE", HtmlCompat.fromHtml(article.content, HtmlCompat.FROM_HTML_MODE_COMPACT).toString())
+//        Log.d("ARTICLE", HtmlCompat.fromHtml(article.content, HtmlCompat.FROM_HTML_MODE_COMPACT).toString())
 
         val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
         val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMANY)

@@ -10,7 +10,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
-import kotlinx.android.synthetic.main.single_article_layout.view.article_title
+import kotlinx.android.synthetic.main.single_article_layout.view.*
 
 class DetailRecyclerViewAdapter : RecyclerView.Adapter<DetailRecyclerViewAdapter.ViewHolder>() {
 
@@ -45,7 +45,8 @@ class DetailRecyclerViewAdapter : RecyclerView.Adapter<DetailRecyclerViewAdapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.article_title.text = HtmlCompat.fromHtml(recommendedDataList[position].title, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        holder.title.article_title.text =
+            recommendedDataList[position].title?.let { HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_COMPACT) }
         holder.title.setOnClickListener { view ->
             val bundle: Bundle = bundleOf()
             bundle.putSerializable("article", recommendedDataList[position])
