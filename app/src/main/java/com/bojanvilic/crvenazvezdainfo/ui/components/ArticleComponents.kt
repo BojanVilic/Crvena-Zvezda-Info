@@ -82,7 +82,7 @@ fun HeadlineArticle(
                         text = articleUiState.title?: ""
                     )
                     Row(
-                        modifier = Modifier.align(Alignment.End),
+                        modifier = Modifier.align(Alignment.End).padding(top = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(painter = painterResource(id = R.drawable.ic_clock), contentDescription = null, tint = if (isSystemInDarkTheme()) Color.White else Color.Black)
@@ -173,7 +173,10 @@ fun ArticleContent(
 @Composable
 fun HeaderArticlePreview() {
     AppTheme {
-        HeadlineArticle(ArticleModelRoom())
+        HeadlineArticle(ArticleModelRoom(
+            title = "Veoma dugacak naslov vesti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nisi eros, hendrerit a nulla sit amet.",
+            date = "2022-11-18T17:45:59"
+        ))
     }
 }
 

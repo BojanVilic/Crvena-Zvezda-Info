@@ -11,7 +11,7 @@ import retrofit2.http.GET
 
 interface ArticleWebService {
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63")
+    @GET("wp-json/wp/v2/posts?_embed=true&per_page=40")
     suspend fun getArticlesList(): List<Model.Article>
 
     @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=1")

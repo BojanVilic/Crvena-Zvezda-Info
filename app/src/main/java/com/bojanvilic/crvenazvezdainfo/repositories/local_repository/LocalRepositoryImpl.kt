@@ -9,10 +9,6 @@ import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 
 class LocalRepositoryImpl(private val articleDao: ArticleDao) : ILocalRepository {
 
-    override fun getArticles(): LiveData<PagedList<ArticleModelRoom>> {
-        return articleDao.getAllArticlesPaged().toLiveData(Config(pageSize = 35, enablePlaceholders = true, maxSize = 200))
-    }
-
     override fun getArticleId(id: Int): ArticleModelRoom {
         return articleDao.getNoteById(id)
     }

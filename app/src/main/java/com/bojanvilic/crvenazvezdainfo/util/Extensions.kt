@@ -2,6 +2,7 @@ package com.bojanvilic.crvenazvezdainfo.util
 
 import android.text.Html
 import android.text.format.DateUtils
+import androidx.compose.foundation.lazy.LazyListState
 import com.bojanvilic.crvenazvezdainfo.R
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -16,10 +17,12 @@ fun String?.formatDateForArticle(): String? {
         try {
             val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
             val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMANY)
-            val output: String = formatter.format(parser.parse(it)!!)
+            val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
+            val serbiaTime: LocalDateTime = LocalDateTime.parse(it, dtf).minusHours(1)
+            val output: String = formatter.format(parser.parse(serbiaTime.toString())!!)
             val date: String = output.split("\\s+".toRegex())[0]
             val time: String = output.split("\\s+".toRegex())[1]
-            return if (this.isDateToday()) "Danas u $time" else "$date $time"
+            return if (serbiaTime.toString().isDateToday()) "Danas u $time" else "$date - $time"
         } catch (e: Exception) {
             Timber.e(e.message)
         }
@@ -30,7 +33,7 @@ fun String?.formatDateForArticle(): String? {
 fun String?.isDateToday(): Boolean {
     val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
     val localDate: LocalDateTime = LocalDateTime.parse(this, formatter)
-    val timeInMilliseconds: Long = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
+    val timeInMilliseconds: Long = localDate.atOffset(ZoneOffset.MIN).toInstant().toEpochMilli()
     return DateUtils.isToday(timeInMilliseconds)
 }
 
@@ -46,4 +49,9 @@ fun String?.categoryNumberToStringResource(): Int {
         "5" -> R.string.menu_basketball
         else -> R.string.menu_other
     }
+}
+
+fun LazyListState.isScrolledToTheEnd() : Boolean {
+    val lastItem = layoutInfo.visibleItemsInfo.lastOrNull()
+    return lastItem == null || lastItem.size + lastItem.offset <= layoutInfo.viewportEndOffset
 }

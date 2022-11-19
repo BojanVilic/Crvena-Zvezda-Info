@@ -9,7 +9,7 @@ interface IInteractor {
 
     fun synchronizeArticles(category: Category)
 
-    fun getArticles() : LiveData<PagedList<ArticleModelRoom>>
+//    fun getArticles() : LiveData<PagedList<ArticleModelRoom>>
 
 //    fun getRecommenedArticles() : LiveData<List<ArticleModelRoom>>
 

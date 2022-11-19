@@ -30,7 +30,7 @@ class ArticleRepository @Inject constructor(
             }
 
             override fun getLocal(): Flow<List<ArticleModelRoom>> {
-                return articleDao.getRecommendedArticles()
+                return articleDao.getAllArticlesPaged()
             }
 
             override suspend fun saveCallResult(data: List<ArticleModelRoom>) {
