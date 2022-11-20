@@ -2,6 +2,7 @@ package com.bojanvilic.crvenazvezdainfo.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,25 +28,35 @@ import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.theme.AppTheme
 import com.bojanvilic.crvenazvezdainfo.ui.ArticlesViewModel
-import com.bojanvilic.crvenazvezdainfo.util.Resource
-import com.bojanvilic.crvenazvezdainfo.util.categoryNumberToStringResource
-import com.bojanvilic.crvenazvezdainfo.util.formatDateForArticle
-import com.bojanvilic.crvenazvezdainfo.util.toHtmlString
+import com.bojanvilic.crvenazvezdainfo.util.*
 
 @Composable
-fun ArticlesScreen(articlesViewModel: ArticlesViewModel = viewModel()) {
+fun ArticlesScreen(
+    articlesViewModel: ArticlesViewModel = viewModel(),
+    onArticleClicked: (Int) -> Unit
+) {
     val articles = articlesViewModel.articlesList.collectAsState(initial = Resource.success(listOf()))
 
-    LazyColumn {
-        items(count = articles.value.data.size) { index ->
-            if (index == 0) {
-                HeadlineArticle(articleUiState = articles.value.data[index])
-            } else {
-                ArticleContent(
-                    articles.value.data[index],
-                    onArticleClicked = {}
-                )
+    Box {
+        LazyColumn {
+            items(count = articles.value.data.size) { index ->
+                if (index == 0) {
+                    HeadlineArticle(articleUiState = articles.value.data[index])
+                } else {
+                    ArticleContent(
+                        articles.value.data[index],
+                        onArticleClicked = onArticleClicked
+                    )
+                }
             }
+        }
+
+        if (articles.value.status == Status.LOADING) {
+            Snackbar(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.BottomCenter)
+            ) { Text(text = stringResource(id = R.string.label_refreshing)) }
         }
     }
 
@@ -70,7 +81,7 @@ fun HeadlineArticle(
                         .data(articleUiState.imageUrl)
                         .build(),
                     imageLoader = LocalContext.current.imageLoader,
-                    placeholder = painterResource(id = R.drawable.ic_launcher_background),
+                    error = painterResource(id = R.drawable.ic_broken_image),
                     contentDescription = null
                 )
                 Column(
@@ -82,7 +93,9 @@ fun HeadlineArticle(
                         text = articleUiState.title?: ""
                     )
                     Row(
-                        modifier = Modifier.align(Alignment.End).padding(top = 8.dp),
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(top = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(painter = painterResource(id = R.drawable.ic_clock), contentDescription = null, tint = if (isSystemInDarkTheme()) Color.White else Color.Black)
@@ -115,11 +128,16 @@ fun HeadlineArticle(
 @Composable
 fun ArticleContent(
     articleUiState: ArticleModelRoom,
-    onArticleClicked: () -> Unit
+    onArticleClicked: (Int) -> Unit
 ) {
     Surface {
         Card(modifier = Modifier
             .padding(8.dp)
+            .clickable {
+                articleUiState.id?.let {
+                    onArticleClicked(it)
+                }
+            }
         ) {
             Row {
                 AsyncImage(
@@ -133,11 +151,12 @@ fun ArticleContent(
                         .data(articleUiState.imageUrl)
                         .build(),
                     imageLoader = LocalContext.current.imageLoader,
-                    placeholder = painterResource(id = R.drawable.construction),
+                    error = painterResource(id = R.drawable.ic_broken_image),
                     contentDescription = null
                 )
                 Box(
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                         .height(130.dp)
                 ) {
@@ -147,7 +166,9 @@ fun ArticleContent(
                         text = articleUiState.title.toHtmlString()
                     )
                     Row(
-                        modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 4.dp),
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(bottom = 4.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(painter = painterResource(id = R.drawable.ic_clock), contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)

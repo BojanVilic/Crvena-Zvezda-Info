@@ -60,4 +60,40 @@ class ArticleRepository @Inject constructor(
             }
         }.asFlow()
     }
+
+    fun getArticleDetails(articleId: String): Flow<Resource<ArticleModelRoom>> {
+        return object : NetworkBoundResource<Model.Article, ArticleModelRoom>(networkStatusTracker) {
+            override fun getRemote(): suspend () -> Model.Article {
+                return {
+                    withContext(Dispatchers.IO) {
+                        articleWebService.getArticleDetails(articleId)
+                    }
+                }
+            }
+
+            override fun getLocal(): Flow<ArticleModelRoom> {
+                return articleDao.getNoteById(articleId)
+            }
+
+            override suspend fun saveCallResult(data: ArticleModelRoom) {
+                withContext(Dispatchers.IO) {
+                    articleDao.insert(data)
+                }
+            }
+
+            override fun mapper(): Function<Model.Article, ArticleModelRoom> {
+                return Function {
+                    ArticleModelRoom(
+                        id = it.id,
+                        date = it.date,
+                        title = it.title.title,
+                        content = it.content.article_text,
+                        imageUrl = it._embedded.wpFeaturedmedia[0].source_url,
+                        category = it.categories[0].toString(),
+                        excerpt = it.excerpt.rendered
+                    )
+                }
+            }
+        }.asFlow()
+    }
 }

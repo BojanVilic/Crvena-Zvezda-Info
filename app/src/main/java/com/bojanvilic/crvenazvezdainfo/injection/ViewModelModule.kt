@@ -1,5 +1,6 @@
 package com.bojanvilic.crvenazvezdainfo.injection
 
+import androidx.lifecycle.SavedStateHandle
 import com.bojanvilic.crvenazvezdainfo.repositories.ArticleRepository
 import com.bojanvilic.crvenazvezdainfo.ui.ArticlesViewModel
 import com.bojanvilic.crvenazvezdainfo.ui.navigation_fragments.home.HomeViewModel
@@ -21,8 +22,9 @@ object ViewModelModule {
 
     @Provides
     fun getArticlesViewModel(
-        articleRepository: ArticleRepository
+        articleRepository: ArticleRepository,
+        savedStateHandle: SavedStateHandle
     ): ArticlesViewModel {
-        return ArticlesViewModel(articleRepository)
+        return ArticlesViewModel(articleRepository, savedStateHandle)
     }
 }

@@ -69,5 +69,7 @@ private val darkThemeColors = darkColorScheme(
     background = dark_theme_background,
     onBackground = dark_theme_onBackground,
     surfaceVariant = dark_theme_surfaceVariant,
-    onSurfaceVariant = dark_theme_onSurfaceVariant
+    onSurfaceVariant = dark_theme_onSurfaceVariant,
+    inverseSurface = dark_theme_inverseSurface,
+    inverseOnSurface = dark_theme_inverseOnSurface
 )

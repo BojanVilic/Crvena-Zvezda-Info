@@ -16,6 +16,8 @@
     <string name="menu_contact">Kontakt</string>
     <string name="menu_shop">Shop</string>
 
+    <string name="label_refreshing">Osvežavanje…</string>
+
     <string name="contact_intro_string">Ovde možete da se obratite našim administratorima. Popunite polja ispod sa vašim predlogom, ponudom ili pitanjem.</string>
     <string name="name_contact_hint">Vaše ime (obavezno):</string>
     <string name="email_contact_hint">Vaša email adresa (obavezno):</string>

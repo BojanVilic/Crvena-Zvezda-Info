@@ -15,5 +15,4 @@ interface IInteractor {
 
     fun getArticlesByCategory(category: String) : LiveData<PagedList<ArticleModelRoom>>
 
-    fun getArticleId(id : Int) : ArticleModelRoom
 }

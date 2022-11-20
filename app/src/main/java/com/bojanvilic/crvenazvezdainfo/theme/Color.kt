@@ -25,6 +25,8 @@ val dark_theme_background = Color(0xFF1b1b1b)
 val dark_theme_onBackground = Color(0xFF1b1b1b)
 val dark_theme_surfaceVariant = Color(0xFF424242)
 val dark_theme_onSurfaceVariant = Color(0xFFefefef)
+val dark_theme_inverseSurface = Color(0xFF1b1b1b)
+val dark_theme_inverseOnSurface = Color(0xFFefefef)
 
 val dark_background = Color(0xFF424242)
 val dark_onSurface = Color(0xFF1b1b1b)

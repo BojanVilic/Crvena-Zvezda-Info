@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bojanvilic.crvenazvezdainfo.adapters.RecyclerViewAdapter
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.bojanvilic.crvenazvezdainfo.theme.AppTheme
 import com.bojanvilic.crvenazvezdainfo.ui.ArticlesViewModel
 import com.bojanvilic.crvenazvezdainfo.ui.IViewContract
+import com.bojanvilic.crvenazvezdainfo.ui.components.ArticleDetailsScreen
 import com.bojanvilic.crvenazvezdainfo.ui.components.ArticlesScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,32 +22,30 @@ class HomePageFragment : Fragment(), IViewContract.View {
 
     private val articlesViewModel by viewModels<ArticlesViewModel>()
 
-    private var recyclerViewAdapter : RecyclerViewAdapter = RecyclerViewAdapter()
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-//        viewModel.connectivityAvailable = ConnectivityCheck.isConnected(requireContext())
-//        viewModel.getOnlineArticles().observe(viewLifecycleOwner, Observer(recyclerViewAdapter::submitList))
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme {
-                    ArticlesScreen(articlesViewModel)
+                    val navController = rememberNavController()
+
+                    NavHost(navController = navController, startDestination = "home") {
+                        composable("home") {
+                            ArticlesScreen(
+                                articlesViewModel,
+                                onArticleClicked = {
+                                    articlesViewModel.setArticleId(it.toString())
+                                    navController.navigate("article_details")
+                                }
+                            )
+                        }
+                        composable("article_details") {
+                            ArticleDetailsScreen(
+                                articlesViewModel
+                            )
+                        }
+                    }
                 }
             }
         }
-
-
-//        val root = inflater.inflate(R.layout.fragment_home_page, container, false)
-//        val layoutManager = GridLayoutManager(context, 1)
-//        val recyclerView : RecyclerView = root.findViewById(R.id.recyclerView)
-//        recyclerView.layoutManager = layoutManager
-//        recyclerView.adapter = recyclerViewAdapter
-//        val mAdView : AdView = root.findViewById(R.id.adView)
-//        val adRequest = AdRequest.Builder().build()
-//        mAdView.loadAd(adRequest)
-//        return root
     }
 }

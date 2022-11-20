@@ -7,23 +7,27 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 
 interface ArticleWebService {
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=40")
+    @GET("posts?_embed=true&per_page=40")
     suspend fun getArticlesList(): List<Model.Article>
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=1")
+    @GET("posts/{id}?_embed=true")
+    suspend fun getArticleDetails(@Path("id") id: String): Model.Article
+
+    @GET("posts?_embed=true&per_page=63&categories=1")
     fun getFootballArticlesList() : Flowable<List<Model.Article>>
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=3")
+    @GET("posts?_embed=true&per_page=63&categories=3")
     fun getOtherArticlesList() : Flowable<List<Model.Article>>
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=4")
+    @GET("posts?_embed=true&per_page=63&categories=4")
     fun getSerbiaArticlesList() : Flowable<List<Model.Article>>
 
-    @GET("wp-json/wp/v2/posts?_embed=true&per_page=63&categories=5")
+    @GET("posts?_embed=true&per_page=63&categories=5")
     fun getBasketballArticlesList() : Flowable<List<Model.Article>>
 
     companion object {

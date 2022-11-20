@@ -21,7 +21,7 @@ interface ArticleDao {
     fun getAllArticlesPaged() : Flow<List<ArticleModelRoom>>
 
     @Query("SELECT * FROM articles_table WHERE id = :id")
-    fun getNoteById(id: Int): ArticleModelRoom
+    fun getNoteById(id: String): Flow<ArticleModelRoom>
 
     @Query("SELECT * FROM articles_table WHERE category = :category ORDER BY date DESC")
     fun getNoteByCategory(category: String): DataSource.Factory<Int, ArticleModelRoom>
