@@ -3,7 +3,6 @@ package com.bojanvilic.crvenazvezdainfo.ui.components
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
@@ -12,11 +11,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,7 +27,9 @@ import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.theme.AppTheme
 import com.bojanvilic.crvenazvezdainfo.ui.ArticlesViewModel
-import com.bojanvilic.crvenazvezdainfo.util.*
+import com.bojanvilic.crvenazvezdainfo.util.Resource
+import com.bojanvilic.crvenazvezdainfo.util.Status
+import com.bojanvilic.crvenazvezdainfo.util.toHtmlString
 
 @Composable
 fun ArticlesScreen(
@@ -41,7 +42,10 @@ fun ArticlesScreen(
         LazyColumn {
             items(count = articles.value.data.size) { index ->
                 if (index == 0) {
-                    HeadlineArticle(articleUiState = articles.value.data[index])
+                    HeadlineArticle(
+                        articleUiState = articles.value.data[index],
+                        onArticleClicked = onArticleClicked
+                    )
                 } else {
                     ArticleContent(
                         articles.value.data[index],
@@ -64,10 +68,19 @@ fun ArticlesScreen(
 
 @Composable
 fun HeadlineArticle(
-    articleUiState: ArticleModelRoom
+    articleUiState: ArticleModelRoom,
+    onArticleClicked: (Int) -> Unit
 ) {
     Surface {
-        Card(modifier = Modifier.padding(8.dp)) {
+        Card(
+            modifier = Modifier
+                .padding(8.dp)
+                .clickable {
+                    articleUiState.id?.let {
+                        onArticleClicked(it)
+                    }
+                }
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -92,24 +105,12 @@ fun HeadlineArticle(
                         style = MaterialTheme.typography.titleLarge,
                         text = articleUiState.title?: ""
                     )
-                    Row(
+                    TimeAndCategorySection(
                         modifier = Modifier
                             .align(Alignment.End)
                             .padding(top = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(painter = painterResource(id = R.drawable.ic_clock), contentDescription = null, tint = if (isSystemInDarkTheme()) Color.White else Color.Black)
-                        Text(
-                            modifier = Modifier.padding(start = 4.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                            text = articleUiState.date.formatDateForArticle()?: ""
-                        )
-                        Text(
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.tertiary,
-                            text = " | " + stringResource(id = articleUiState.category.categoryNumberToStringResource())
-                        )
-                    }
+                        articleUiState = articleUiState
+                    )
                     Divider(
                         modifier = Modifier.padding(top = 8.dp),
                         color = MaterialTheme.colorScheme.tertiary
@@ -163,26 +164,16 @@ fun ArticleContent(
                     Text(
                         modifier = Modifier.align(Alignment.TopStart),
                         style = MaterialTheme.typography.titleMedium,
-                        text = articleUiState.title.toHtmlString()
+                        text = articleUiState.title.toHtmlString(),
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
                     )
-                    Row(
+                    TimeAndCategorySection(
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .padding(bottom = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(painter = painterResource(id = R.drawable.ic_clock), contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text(
-                            modifier = Modifier.padding(start = 4.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                            text = articleUiState.date.formatDateForArticle()?: ""
-                        )
-                        Text(
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.tertiary,
-                            text = " | " + stringResource(id = articleUiState.category.categoryNumberToStringResource())
-                        )
-                    }
+                        articleUiState = articleUiState
+                    )
                 }
             }
         }
@@ -194,10 +185,13 @@ fun ArticleContent(
 @Composable
 fun HeaderArticlePreview() {
     AppTheme {
-        HeadlineArticle(ArticleModelRoom(
-            title = "Veoma dugacak naslov vesti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nisi eros, hendrerit a nulla sit amet.",
-            date = "2022-11-18T17:45:59"
-        ))
+        HeadlineArticle(
+            articleUiState = ArticleModelRoom(
+                title = "Veoma dugacak naslov vesti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nisi eros, hendrerit a nulla sit amet.",
+                date = "2022-11-18T17:45:59"
+            ),
+            onArticleClicked = {}
+        )
     }
 }
 
@@ -207,7 +201,10 @@ fun HeaderArticlePreview() {
 fun ArticleContentPreview() {
     AppTheme {
         ArticleContent(
-            articleUiState = ArticleModelRoom(title = "Veoma dugacak naslov vesti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nisi eros, hendrerit a nulla sit amet."),
+            articleUiState = ArticleModelRoom(
+                title = "Veoma dugacak naslov vesti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nisi eros, hendrerit a nulla sit amet.",
+                date = "2022-11-18T17:45:59"
+            ),
             onArticleClicked = {}
         )
     }

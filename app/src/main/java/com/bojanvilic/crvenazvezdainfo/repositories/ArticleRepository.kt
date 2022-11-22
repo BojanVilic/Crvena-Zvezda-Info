@@ -96,4 +96,6 @@ class ArticleRepository @Inject constructor(
             }
         }.asFlow()
     }
+
+    fun recommendedArticles(currentArticleId: String) = articleDao.getRecommendedArticles(currentArticleId)
 }

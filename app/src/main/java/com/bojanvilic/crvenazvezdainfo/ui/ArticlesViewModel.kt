@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -20,14 +21,19 @@ constructor(
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
+    var recommendedArticles: Flow<List<ArticleModelRoom>> = flow {
+        listOf<ArticleModelRoom>()
+    }
+
     val article: Flow<Resource<ArticleModelRoom>> =
-        savedStateHandle.getStateFlow("id", initialValue = "50298")
+        savedStateHandle.getStateFlow("id", initialValue = "0")
             .flatMapLatest { id ->
                 Timber.d(id)
+                recommendedArticles = articleRepository.recommendedArticles(id)
                 articleRepository.getArticleDetails(id)
             }
 
-    var articlesList = articleRepository.getLatestArticles()
+    val articlesList = articleRepository.getLatestArticles()
 
     fun setArticleId(id: String) {
         savedStateHandle["id"] = id
