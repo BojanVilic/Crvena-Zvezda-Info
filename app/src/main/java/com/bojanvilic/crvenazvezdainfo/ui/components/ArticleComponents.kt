@@ -103,7 +103,7 @@ fun HeadlineArticle(
                     Text(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         style = MaterialTheme.typography.titleLarge,
-                        text = articleUiState.title?: ""
+                        text = articleUiState.title.toHtmlString()
                     )
                     TimeAndCategorySection(
                         modifier = Modifier

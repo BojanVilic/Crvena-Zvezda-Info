@@ -1,67 +1,118 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.bojanvilic.crvenazvezdainfo.ui
 
 import android.os.Bundle
-import android.view.Menu
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.bojanvilic.crvenazvezdainfo.R
-import com.google.android.material.navigation.NavigationView
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.bojanvilic.crvenazvezdainfo.theme.AppTheme
+import com.bojanvilic.crvenazvezdainfo.ui.components.ArticlesScreen
+import com.bojanvilic.crvenazvezdainfo.ui.components.TabRow
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.core.context.stopKoin
 
 @AndroidEntryPoint
-class MainPageActivity : AppCompatActivity() {
+class MainPageActivity : ComponentActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    private val articlesViewModel by viewModels<ArticlesViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_page)
-
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home,
-                R.id.nav_football,
-                R.id.nav_basketball,
-                R.id.nav_other,
-                R.id.nav_serbia,
-                R.id.nav_contact,
-                R.id.nav_shop
-            ), drawerLayout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        setContent {
+            CrvenaZvezdaInfoApp(articlesViewModel)
+        }
     }
+}
 
-    override fun onDestroy() {
-        super.onDestroy()
-        stopKoin()
+@Composable
+fun CrvenaZvezdaInfoApp(articlesViewModel: ArticlesViewModel) {
+    AppTheme {
+        val allScreens = AppScreen.values().toList()
+        val navController = rememberNavController()
+        val backstackEntry = navController.currentBackStackEntryAsState()
+        val currentScreen = AppScreen.fromRoute(backstackEntry.value?.destination?.route)
+
+        Scaffold(
+            topBar = {
+                TabRow(
+                    allScreens = allScreens,
+                    onTabSelected = { screen ->
+                        navController.navigate(screen.name)
+                    },
+                    currentScreen = currentScreen
+                )
+            }
+        ) { innerPadding ->
+            RallyNavHost(navController, modifier = Modifier.padding(innerPadding), articlesViewModel)
+        }
     }
+}
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main_page, menu)
-        return true
+@Composable
+fun RallyNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    articlesViewModel: ArticlesViewModel
+) {
+    NavHost(
+        navController = navController,
+        startDestination = AppScreen.Home.name,
+        modifier = modifier
+    ) {
+        composable(AppScreen.Home.name) {
+            ArticlesScreen(
+                articlesViewModel,
+                onArticleClicked = {
+                    articlesViewModel.setArticleId(it.toString())
+                    navController.navigate("article_details")
+                }
+            )
+        }
+        composable(AppScreen.Football.name) {
+            ArticlesScreen(
+                articlesViewModel,
+                onArticleClicked = {
+                    articlesViewModel.setArticleId(it.toString())
+                    navController.navigate("article_details")
+                }
+            )
+        }
+        composable(AppScreen.Basketball.name) {
+            ArticlesScreen(
+                articlesViewModel,
+                onArticleClicked = {
+                    articlesViewModel.setArticleId(it.toString())
+                    navController.navigate("article_details")
+                }
+            )
+        }
+        composable(AppScreen.Other.name) {
+            ArticlesScreen(
+                articlesViewModel,
+                onArticleClicked = {
+                    articlesViewModel.setArticleId(it.toString())
+                    navController.navigate("article_details")
+                }
+            )
+        }
+        composable(AppScreen.Serbia.name) {
+            ArticlesScreen(
+                articlesViewModel,
+                onArticleClicked = {
+                    articlesViewModel.setArticleId(it.toString())
+                    navController.navigate("article_details")
+                }
+            )
+        }
     }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
 }
