@@ -25,13 +25,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.bojanvilic.crvenazvezdainfo.ui.AppScreen
+import com.bojanvilic.crvenazvezdainfo.ui.TopLevelDestinations
 
 @Composable
 fun TabRow(
-    allScreens: List<AppScreen>,
-    onTabSelected: (AppScreen) -> Unit,
-    currentScreen: AppScreen
+    allScreens: List<TopLevelDestinations>,
+    onTabSelected: (TopLevelDestinations) -> Unit,
+    currentScreen: TopLevelDestinations
 ) {
     Surface(
         Modifier

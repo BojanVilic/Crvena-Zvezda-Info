@@ -33,15 +33,12 @@ class HomePageFragment : Fragment(), IViewContract.View {
                             ArticlesScreen(
                                 articlesViewModel,
                                 onArticleClicked = {
-                                    articlesViewModel.setArticleId(it.toString())
                                     navController.navigate("article_details")
                                 }
                             )
                         }
                         composable("article_details") {
-                            ArticleDetailsScreen(
-                                articlesViewModel
-                            )
+                            ArticleDetailsScreen()
                         }
                     }
                 }

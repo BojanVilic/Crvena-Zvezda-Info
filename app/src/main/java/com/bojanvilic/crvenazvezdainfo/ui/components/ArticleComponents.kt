@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.CachePolicy
@@ -33,7 +33,7 @@ import com.bojanvilic.crvenazvezdainfo.util.toHtmlString
 
 @Composable
 fun ArticlesScreen(
-    articlesViewModel: ArticlesViewModel = viewModel(),
+    articlesViewModel: ArticlesViewModel = hiltViewModel(),
     onArticleClicked: (Int) -> Unit
 ) {
     val articles = articlesViewModel.articlesList.collectAsState(initial = Resource.success(listOf()))
@@ -44,12 +44,15 @@ fun ArticlesScreen(
                 if (index == 0) {
                     HeadlineArticle(
                         articleUiState = articles.value.data[index],
-                        onArticleClicked = onArticleClicked
-                    )
+                        onArticleClicked = {
+                            onArticleClicked(it)
+                        })
                 } else {
                     ArticleContent(
                         articles.value.data[index],
-                        onArticleClicked = onArticleClicked
+                        onArticleClicked = {
+                            onArticleClicked(it)
+                        }
                     )
                 }
             }

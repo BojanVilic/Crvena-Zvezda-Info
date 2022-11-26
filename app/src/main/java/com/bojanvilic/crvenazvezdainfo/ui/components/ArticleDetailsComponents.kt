@@ -1,16 +1,10 @@
 package com.bojanvilic.crvenazvezdainfo.ui.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -19,9 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.CachePolicy
@@ -29,27 +24,36 @@ import coil.request.ImageRequest
 import com.bojanvilic.crvenazvezdainfo.R
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.theme.AppTheme
-import com.bojanvilic.crvenazvezdainfo.ui.ArticlesViewModel
+import com.bojanvilic.crvenazvezdainfo.ui.ArticleDetailsViewModel
 import com.bojanvilic.crvenazvezdainfo.util.Resource
+import com.bojanvilic.crvenazvezdainfo.util.Status
 import com.bojanvilic.crvenazvezdainfo.util.toHtmlString
 import kotlinx.coroutines.launch
 
 @Composable
 fun ArticleDetailsScreen(
-    articlesViewModel: ArticlesViewModel = viewModel()
+    articlesViewModel: ArticleDetailsViewModel = hiltViewModel()
 ) {
 
-    val articleDetails = articlesViewModel.article.collectAsState(initial = Resource.success(ArticleModelRoom()))
+    val articleDetails = articlesViewModel.articleDetails.collectAsState(initial = Resource.success(ArticleModelRoom()))
     val recommendedArticles = articlesViewModel.recommendedArticles.collectAsState(initial = listOf())
 
-
-    ArticleDetailsScreenContent(
-        articleUiState = articleDetails.value.data,
-        recommendedArticles = recommendedArticles.value,
-        onArticleClicked =  {
-            articlesViewModel.setArticleId(it.toString())
+    Box {
+        ArticleDetailsScreenContent(
+            articleUiState = articleDetails.value.data,
+            recommendedArticles = recommendedArticles.value,
+            onArticleClicked = {
+                articlesViewModel.setArticleId(it.toString())
+            }
+        )
+        if (articleDetails.value.status == Status.LOADING) {
+            Snackbar(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.BottomCenter)
+            ) { Text(text = stringResource(id = R.string.label_refreshing)) }
         }
-    )
+    }
 }
 
 @Composable
