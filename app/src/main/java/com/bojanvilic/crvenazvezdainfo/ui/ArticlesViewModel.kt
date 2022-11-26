@@ -10,7 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ArticlesViewModel @Inject
 constructor(
-    private val articleRepository: ArticleRepository
+    articleRepository: ArticleRepository
 ): ViewModel() {
 
     val articlesList = articleRepository.getLatestArticles()

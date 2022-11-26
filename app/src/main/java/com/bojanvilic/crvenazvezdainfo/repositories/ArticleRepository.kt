@@ -1,7 +1,7 @@
 package com.bojanvilic.crvenazvezdainfo.repositories
 
 import com.bojanvilic.crvenazvezdainfo.data.api.ArticleWebService
-import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
+import com.bojanvilic.crvenazvezdainfo.data.datamodel.ArticleEntity
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleDao
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
 import com.bojanvilic.crvenazvezdainfo.util.NetworkBoundResource
@@ -20,8 +20,8 @@ class ArticleRepository @Inject constructor(
 ) {
 
     fun getLatestArticles(): Flow<Resource<List<ArticleModelRoom>>> {
-        return object : NetworkBoundResource<List<Model.Article>, List<ArticleModelRoom>>(networkStatusTracker) {
-            override fun getRemote(): suspend () -> List<Model.Article> {
+        return object : NetworkBoundResource<List<ArticleEntity>, List<ArticleModelRoom>>(networkStatusTracker) {
+            override fun getRemote(): suspend () -> List<ArticleEntity> {
                 return {
                     withContext(Dispatchers.IO) {
                         articleWebService.getArticlesList()
@@ -39,7 +39,7 @@ class ArticleRepository @Inject constructor(
                 }
             }
 
-            override fun mapper(): Function<List<Model.Article>, List<ArticleModelRoom>> {
+            override fun mapper(): Function<List<ArticleEntity>, List<ArticleModelRoom>> {
                 return Function {
                     val result: MutableList<ArticleModelRoom> = ArrayList()
                     for (element in it) {
@@ -62,8 +62,8 @@ class ArticleRepository @Inject constructor(
     }
 
     fun getArticleDetails(articleId: String): Flow<Resource<ArticleModelRoom>> {
-        return object : NetworkBoundResource<Model.Article, ArticleModelRoom>(networkStatusTracker) {
-            override fun getRemote(): suspend () -> Model.Article {
+        return object : NetworkBoundResource<ArticleEntity, ArticleModelRoom>(networkStatusTracker) {
+            override fun getRemote(): suspend () -> ArticleEntity {
                 return {
                     withContext(Dispatchers.IO) {
                         articleWebService.getArticleDetails(articleId)
@@ -81,7 +81,7 @@ class ArticleRepository @Inject constructor(
                 }
             }
 
-            override fun mapper(): Function<Model.Article, ArticleModelRoom> {
+            override fun mapper(): Function<ArticleEntity, ArticleModelRoom> {
                 return Function {
                     ArticleModelRoom(
                         id = it.id,

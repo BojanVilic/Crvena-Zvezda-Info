@@ -6,8 +6,4 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="NavDrawerTextStyle" parent="Base.TextAppearance.AppCompat">
-        <item name="android:fontFamily">@font/evogriaitalic</item>
-    </style>
-
 </resources>

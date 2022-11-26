@@ -1,6 +1,6 @@
 package com.bojanvilic.crvenazvezdainfo.data.api
 
-import com.bojanvilic.crvenazvezdainfo.data.datamodel.Model
+import com.bojanvilic.crvenazvezdainfo.data.datamodel.ArticleEntity
 import com.bojanvilic.crvenazvezdainfo.util.BASE_URL
 import io.reactivex.Flowable
 import retrofit2.Retrofit
@@ -13,22 +13,22 @@ import retrofit2.http.Path
 interface ArticleWebService {
 
     @GET("posts?_embed=true&per_page=40")
-    suspend fun getArticlesList(): List<Model.Article>
+    suspend fun getArticlesList(): List<ArticleEntity>
 
     @GET("posts/{id}?_embed=true")
-    suspend fun getArticleDetails(@Path("id") id: String): Model.Article
+    suspend fun getArticleDetails(@Path("id") id: String): ArticleEntity
 
     @GET("posts?_embed=true&per_page=63&categories=1")
-    fun getFootballArticlesList() : Flowable<List<Model.Article>>
+    fun getFootballArticlesList() : Flowable<List<ArticleEntity>>
 
     @GET("posts?_embed=true&per_page=63&categories=3")
-    fun getOtherArticlesList() : Flowable<List<Model.Article>>
+    fun getOtherArticlesList() : Flowable<List<ArticleEntity>>
 
     @GET("posts?_embed=true&per_page=63&categories=4")
-    fun getSerbiaArticlesList() : Flowable<List<Model.Article>>
+    fun getSerbiaArticlesList() : Flowable<List<ArticleEntity>>
 
     @GET("posts?_embed=true&per_page=63&categories=5")
-    fun getBasketballArticlesList() : Flowable<List<Model.Article>>
+    fun getBasketballArticlesList() : Flowable<List<ArticleEntity>>
 
     companion object {
         fun create(): ArticleWebService {
