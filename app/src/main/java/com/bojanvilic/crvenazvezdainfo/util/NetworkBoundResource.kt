@@ -6,14 +6,14 @@ import java.util.function.Function
 
 abstract class NetworkBoundResource<RemoteType, LocalType>(private val networkStatusTracker: NetworkStatusTracker) {
 
-    open fun shouldFetchFromRemote(): Boolean = true
+    open suspend fun shouldFetchFromRemote(): suspend () -> Boolean = { true }
     abstract fun getRemote(): suspend () -> RemoteType
     abstract fun getLocal(): Flow<LocalType>
     abstract suspend fun saveCallResult(data: LocalType)
     abstract fun mapper(): Function<RemoteType, LocalType>
 
     fun asFlow(): Flow<Resource<LocalType>> = flow {
-        val result = if (shouldFetchFromRemote()) {
+        val result = if (shouldFetchFromRemote().invoke()) {
             emit(Resource.loading(getLocal().first()))
             try {
                 saveCallResult(mapper().apply(getRemote().invoke()))

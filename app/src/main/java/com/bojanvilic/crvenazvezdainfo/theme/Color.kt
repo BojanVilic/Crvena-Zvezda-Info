@@ -11,7 +11,7 @@ val light_theme_onError = Color(0xFF690005)
 val light_theme_onErrorContainer = Color(0xFFFFDAD6)
 val light_theme_background = Color(0xFFeeeeee)
 val light_theme_onBackground = Color(0xFFeeeeee)
-val light_theme_surfaceVariant = Color(0xFFFDF3F1)
+val light_theme_surfaceVariant = Color(0xFFF1EAEA)
 val light_theme_onSurfaceVariant = Color(0xFF1b1b1b)
 
 val dark_theme_primary = Color(0xFFBE0001)

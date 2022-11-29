@@ -15,9 +15,10 @@ object ViewModelModule {
 
     @Provides
     fun getArticlesViewModel(
-        articleRepository: ArticleRepository
+        articleRepository: ArticleRepository,
+        savedStateHandle: SavedStateHandle
     ): ArticlesViewModel {
-        return ArticlesViewModel(articleRepository)
+        return ArticlesViewModel(articleRepository, savedStateHandle)
     }
 
     @Provides

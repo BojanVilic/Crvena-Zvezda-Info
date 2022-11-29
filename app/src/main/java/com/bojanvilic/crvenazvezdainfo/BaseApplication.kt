@@ -17,7 +17,6 @@ class BaseApplication : Application(), ImageLoaderFactory {
         super.onCreate()
 
         Timber.plant(DebugTree())
-
         MobileAds.initialize(this) {}
     }
 

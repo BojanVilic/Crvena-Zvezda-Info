@@ -73,7 +73,7 @@ private fun Tab(
     )
     Row(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(vertical = 16.dp, horizontal = 12.dp)
             .animateContentSize()
             .height(TabHeight)
             .selectable(
@@ -100,5 +100,5 @@ private val TabHeight = 56.dp
 private const val InactiveTabOpacity = 0.60f
 
 private const val TabFadeInAnimationDuration = 150
-private const val TabFadeInAnimationDelay = 100
+private const val TabFadeInAnimationDelay = 200
 private const val TabFadeOutAnimationDuration = 100

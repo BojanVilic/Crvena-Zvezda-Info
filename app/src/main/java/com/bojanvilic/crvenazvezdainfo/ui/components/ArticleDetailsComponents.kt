@@ -1,6 +1,7 @@
 package com.bojanvilic.crvenazvezdainfo.ui.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +31,7 @@ import com.bojanvilic.crvenazvezdainfo.util.Resource
 import com.bojanvilic.crvenazvezdainfo.util.Status
 import com.bojanvilic.crvenazvezdainfo.util.toHtmlString
 import kotlinx.coroutines.launch
+
 
 @Composable
 fun ArticleDetailsScreen(
@@ -65,6 +68,8 @@ fun ArticleDetailsScreenContent(
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
 
     Surface {
         LazyColumn(
@@ -103,6 +108,20 @@ fun ArticleDetailsScreenContent(
                         modifier = Modifier.padding(top = 8.dp),
                         color = MaterialTheme.colorScheme.tertiary
                     )
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .clickable {
+                                try {
+                                    uriHandler.openUri("fb://page/345733629687254")
+                                } catch (e: Exception) {
+                                    uriHandler.openUri("https://www.crvenazvezdainfo.com/")
+                                }
+                            },
+                        style = MaterialTheme.typography.labelLarge,
+                        text = "Facebook page"
+                    )
+
                     Text(
                         modifier = Modifier.padding(top = 16.dp),
                         style = MaterialTheme.typography.labelLarge,

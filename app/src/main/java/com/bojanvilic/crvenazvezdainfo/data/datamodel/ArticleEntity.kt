@@ -5,6 +5,7 @@ import java.io.Serializable
 
 data class ArticleEntity(
     val id: Int,
+    @SerializedName("date_gmt")
     val date: String,
     val title: Title,
     val content: Content,

@@ -1,5 +1,7 @@
 package com.bojanvilic.crvenazvezdainfo.injection
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.bojanvilic.crvenazvezdainfo.data.api.ArticleWebService
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleDao
 import com.bojanvilic.crvenazvezdainfo.repositories.ArticleRepository
@@ -19,8 +21,9 @@ object RepositoryModule {
     fun getArticlesRepository(
         articleDao: ArticleDao,
         articleWebService: ArticleWebService,
-        networkStatusTracker: NetworkStatusTracker
+        networkStatusTracker: NetworkStatusTracker,
+        dataStore: DataStore<Preferences>
     ): ArticleRepository {
-        return ArticleRepository(articleDao, articleWebService, networkStatusTracker)
+        return ArticleRepository(articleDao, articleWebService, networkStatusTracker, dataStore)
     }
 }

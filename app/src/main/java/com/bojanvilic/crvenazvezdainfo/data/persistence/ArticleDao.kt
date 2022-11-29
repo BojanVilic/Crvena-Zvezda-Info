@@ -1,6 +1,5 @@
 package com.bojanvilic.crvenazvezdainfo.data.persistence
 
-import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -21,10 +20,10 @@ interface ArticleDao {
     fun getAllArticlesPaged() : Flow<List<ArticleModelRoom>>
 
     @Query("SELECT * FROM articles_table WHERE id = :id")
-    fun getNoteById(id: String): Flow<ArticleModelRoom>
+    fun getArticleById(id: String): Flow<ArticleModelRoom>
 
     @Query("SELECT * FROM articles_table WHERE category = :category ORDER BY date DESC")
-    fun getNoteByCategory(category: String): DataSource.Factory<Int, ArticleModelRoom>
+    fun getArticlesByCategory(category: String): Flow<List<ArticleModelRoom>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(list: List<ArticleModelRoom>)

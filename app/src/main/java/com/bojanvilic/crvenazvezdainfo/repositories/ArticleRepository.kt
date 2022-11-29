@@ -1,40 +1,65 @@
 package com.bojanvilic.crvenazvezdainfo.repositories
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.bojanvilic.crvenazvezdainfo.data.api.ArticleWebService
 import com.bojanvilic.crvenazvezdainfo.data.datamodel.ArticleEntity
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleDao
 import com.bojanvilic.crvenazvezdainfo.data.persistence.ArticleModelRoom
-import com.bojanvilic.crvenazvezdainfo.util.NetworkBoundResource
-import com.bojanvilic.crvenazvezdainfo.util.NetworkStatusTracker
-import com.bojanvilic.crvenazvezdainfo.util.Resource
+import com.bojanvilic.crvenazvezdainfo.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.util.*
 import java.util.function.Function
 import javax.inject.Inject
 
 class ArticleRepository @Inject constructor(
-    val articleDao: ArticleDao,
-    val articleWebService: ArticleWebService,
-    val networkStatusTracker: NetworkStatusTracker
+    private val articleDao: ArticleDao,
+    private val articleWebService: ArticleWebService,
+    private val networkStatusTracker: NetworkStatusTracker,
+    private val dataStore: DataStore<Preferences>
 ) {
 
-    fun getLatestArticles(): Flow<Resource<List<ArticleModelRoom>>> {
+    fun getLatestArticlesByCategory(category: Int): Flow<Resource<List<ArticleModelRoom>>> {
         return object : NetworkBoundResource<List<ArticleEntity>, List<ArticleModelRoom>>(networkStatusTracker) {
+            override suspend fun shouldFetchFromRemote(): suspend () -> Boolean {
+                return {
+                    withContext(Dispatchers.IO) {
+                        val lastUpdatedTime = dataStore.data.map {
+                            it[category.dataStoreKeyMapper()] ?: 0
+                        }.first()
+
+                        Calendar.getInstance().timeInMillis - lastUpdatedTime > REFRESH_INTERVAL
+                    }
+                }
+            }
+
             override fun getRemote(): suspend () -> List<ArticleEntity> {
                 return {
                     withContext(Dispatchers.IO) {
-                        articleWebService.getArticlesList()
+                        if (category == 0) {
+                            articleWebService.getMostRecentArticlesList()
+                        } else {
+                            articleWebService.getArticlesListByCategory(category)
+                        }
                     }
                 }
             }
 
             override fun getLocal(): Flow<List<ArticleModelRoom>> {
-                return articleDao.getAllArticlesPaged()
+                return if (category == 0) {
+                    articleDao.getAllArticlesPaged()
+                } else {
+                    articleDao.getArticlesByCategory(category.toString())
+                }
             }
 
             override suspend fun saveCallResult(data: List<ArticleModelRoom>) {
                 withContext(Dispatchers.IO) {
+                    category.updateLastRefreshedIntervals(dataStore)
                     articleDao.insertAll(data)
                 }
             }
@@ -72,7 +97,7 @@ class ArticleRepository @Inject constructor(
             }
 
             override fun getLocal(): Flow<ArticleModelRoom> {
-                return articleDao.getNoteById(articleId)
+                return articleDao.getArticleById(articleId)
             }
 
             override suspend fun saveCallResult(data: ArticleModelRoom) {

@@ -67,6 +67,7 @@ dependencies {
     def timber_version ="5.0.1"
     def nav_version = "2.5.3"
     def hilt_nav_version = "1.0.0"
+    def datastore_version = "1.0.0"
 
     //picasso
     implementation "com.squareup.picasso:picasso:$picasso_version"
@@ -127,7 +128,11 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_nav_version"
 
+    //Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
+
+    //DataStore
+    implementation "androidx.datastore:datastore-preferences:$datastore_version"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.5.1'

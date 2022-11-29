@@ -1,28 +1,28 @@
 package com.bojanvilic.crvenazvezdainfo.util
 
+import android.content.Context
+import android.content.Intent
 import android.text.Html
-import android.text.format.DateUtils
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import com.bojanvilic.crvenazvezdainfo.R
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 fun String?.formatDateForArticle(): String? {
     this?.let {
         try {
-            val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
-            val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMANY)
             val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
-            val serbiaTime: LocalDateTime = LocalDateTime.parse(it, dtf).minusHours(1)
-            val output: String = formatter.format(parser.parse(serbiaTime.toString())!!)
-            val date: String = output.split("\\s+".toRegex())[0]
-            val time: String = output.split("\\s+".toRegex())[1]
-            return if (serbiaTime.toString().isDateToday()) "Danas u $time" else "$date - $time"
+            val calendar: Calendar = GregorianCalendar()
+            val localDateTime: LocalDateTime = LocalDateTime.parse(it, dtf).plusHours(TimeUnit.HOURS.convert(calendar.timeZone.rawOffset.toLong(), TimeUnit.MILLISECONDS))
+            return if (localDateTime.isDateToday()) "Danas u ${localDateTime.format(DateTimeFormatter.ofPattern("HH:mm", Locale.GERMANY))}" else localDateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm", Locale.GERMANY))
         } catch (e: Exception) {
             Timber.e(e.message)
         }
@@ -30,11 +30,9 @@ fun String?.formatDateForArticle(): String? {
     return this
 }
 
-fun String?.isDateToday(): Boolean {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
-    val localDate: LocalDateTime = LocalDateTime.parse(this, formatter)
-    val timeInMilliseconds: Long = localDate.atOffset(ZoneOffset.MIN).toInstant().toEpochMilli()
-    return DateUtils.isToday(timeInMilliseconds)
+fun LocalDateTime.isDateToday(): Boolean {
+    val today = LocalDateTime.now()
+    return this.year == today.year && this.monthValue == today.monthValue && this.dayOfMonth == today.dayOfMonth
 }
 
 fun String?.toHtmlString(): String {
@@ -54,4 +52,37 @@ fun String?.categoryNumberToStringResource(): Int {
 fun LazyListState.isScrolledToTheEnd() : Boolean {
     val lastItem = layoutInfo.visibleItemsInfo.lastOrNull()
     return lastItem == null || lastItem.size + lastItem.offset <= layoutInfo.viewportEndOffset
+}
+
+fun Context.shareArticleLink(link: String) {
+    try {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(
+            Intent.EXTRA_SUBJECT,
+            this.getString(R.string.app_name)
+        )
+        shareIntent.putExtra(Intent.EXTRA_TEXT, link)
+        ContextCompat.startActivity(this, Intent.createChooser(shareIntent, this.getString(R.string.share_chose_app_label)), null)
+    } catch (e: Exception) {
+        Timber.e(e.message)
+    }
+}
+
+suspend fun Int.updateLastRefreshedIntervals(dataStore: DataStore<Preferences>) {
+    val currentTime = Calendar.getInstance().timeInMillis
+    dataStore.edit { settings ->
+        settings[this.dataStoreKeyMapper()] = currentTime
+    }
+}
+
+fun Int.dataStoreKeyMapper(): Preferences.Key<Long> {
+    return when (this) {
+        0 -> HOME_PAGE_LAST_REFRESHED_KEY
+        1 -> FOOTBALL_PAGE_LAST_REFRESHED_KEY
+        5 -> BASKETBALL_PAGE_LAST_REFRESHED_KEY
+        3 -> OTHER_PAGE_LAST_REFRESHED_KEY
+        4 -> SERBIA_PAGE_LAST_REFRESHED_KEY
+        else -> HOME_PAGE_LAST_REFRESHED_KEY
+    }
 }
