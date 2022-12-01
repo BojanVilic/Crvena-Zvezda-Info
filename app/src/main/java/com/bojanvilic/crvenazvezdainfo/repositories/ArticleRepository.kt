@@ -88,6 +88,12 @@ class ArticleRepository @Inject constructor(
 
     fun getArticleDetails(articleId: String): Flow<Resource<ArticleModelRoom>> {
         return object : NetworkBoundResource<ArticleEntity, ArticleModelRoom>(networkStatusTracker) {
+            override suspend fun shouldFetchFromRemote(): suspend () -> Boolean {
+                return {
+                    false
+                }
+            }
+
             override fun getRemote(): suspend () -> ArticleEntity {
                 return {
                     withContext(Dispatchers.IO) {

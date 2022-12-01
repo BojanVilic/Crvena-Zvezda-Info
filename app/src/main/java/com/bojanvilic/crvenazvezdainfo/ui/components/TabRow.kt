@@ -6,10 +6,13 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,12 +22,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.bojanvilic.crvenazvezdainfo.ui.TopLevelDestinations
 
 @Composable
@@ -96,9 +101,33 @@ private fun Tab(
     }
 }
 
+@Composable
+fun DetailsTopBar(
+    onBackClicked: () -> Unit
+) {
+    Surface(
+        Modifier
+            .height(TabHeight)
+            .shadow(elevation = 8.dp)
+            .zIndex(1f)
+            .fillMaxWidth()
+    ) {
+        Row(modifier = Modifier) {
+            Icon(
+                imageVector = Icons.Filled.ArrowBack,
+                contentDescription = "Back",
+                modifier = Modifier
+                    .padding(16.dp)
+                    .clickable {
+                        onBackClicked()
+                    }
+            )
+        }
+    }
+}
+
 private val TabHeight = 56.dp
 private const val InactiveTabOpacity = 0.60f
-
 private const val TabFadeInAnimationDuration = 150
 private const val TabFadeInAnimationDelay = 200
 private const val TabFadeOutAnimationDuration = 100

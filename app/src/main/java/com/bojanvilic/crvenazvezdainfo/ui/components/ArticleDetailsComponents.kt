@@ -115,7 +115,7 @@ fun ArticleDetailsScreenContent(
                                 try {
                                     uriHandler.openUri("fb://page/345733629687254")
                                 } catch (e: Exception) {
-                                    uriHandler.openUri("https://www.crvenazvezdainfo.com/")
+                                    uriHandler.openUri("https://www.facebook.com/crvenobelifejs1989")
                                 }
                             },
                         style = MaterialTheme.typography.labelLarge,
@@ -146,7 +146,6 @@ fun ArticleDetailsScreenContent(
             }
         }
     }
-
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
