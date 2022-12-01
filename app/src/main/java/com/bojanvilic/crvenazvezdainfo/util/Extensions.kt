@@ -3,7 +3,6 @@ package com.bojanvilic.crvenazvezdainfo.util
 import android.content.Context
 import android.content.Intent
 import android.text.Html
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -47,11 +46,6 @@ fun String?.categoryNumberToStringResource(): Int {
         "5" -> R.string.menu_basketball
         else -> R.string.menu_other
     }
-}
-
-fun LazyListState.isScrolledToTheEnd() : Boolean {
-    val lastItem = layoutInfo.visibleItemsInfo.lastOrNull()
-    return lastItem == null || lastItem.size + lastItem.offset <= layoutInfo.viewportEndOffset
 }
 
 fun Context.shareArticleLink(link: String) {

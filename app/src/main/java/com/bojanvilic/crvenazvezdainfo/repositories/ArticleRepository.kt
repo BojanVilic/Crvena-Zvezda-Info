@@ -23,16 +23,20 @@ class ArticleRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
 
-    fun getLatestArticlesByCategory(category: Int): Flow<Resource<List<ArticleModelRoom>>> {
+    fun getLatestArticlesByCategory(category: Int, pageNumber: Int): Flow<Resource<List<ArticleModelRoom>>> {
         return object : NetworkBoundResource<List<ArticleEntity>, List<ArticleModelRoom>>(networkStatusTracker) {
             override suspend fun shouldFetchFromRemote(): suspend () -> Boolean {
                 return {
-                    withContext(Dispatchers.IO) {
-                        val lastUpdatedTime = dataStore.data.map {
-                            it[category.dataStoreKeyMapper()] ?: 0
-                        }.first()
+                    if (pageNumber == 1) {
+                        withContext(Dispatchers.IO) {
+                            val lastUpdatedTime = dataStore.data.map {
+                                it[category.dataStoreKeyMapper()] ?: 0
+                            }.first()
 
-                        Calendar.getInstance().timeInMillis - lastUpdatedTime > REFRESH_INTERVAL
+                            Calendar.getInstance().timeInMillis - lastUpdatedTime > REFRESH_INTERVAL
+                        }
+                    } else {
+                        true
                     }
                 }
             }
@@ -41,9 +45,9 @@ class ArticleRepository @Inject constructor(
                 return {
                     withContext(Dispatchers.IO) {
                         if (category == 0) {
-                            articleWebService.getMostRecentArticlesList()
+                            articleWebService.getMostRecentArticlesList(pageNumber = pageNumber)
                         } else {
-                            articleWebService.getArticlesListByCategory(category)
+                            articleWebService.getArticlesListByCategory(category = category, pageNumber = pageNumber)
                         }
                     }
                 }
@@ -51,9 +55,9 @@ class ArticleRepository @Inject constructor(
 
             override fun getLocal(): Flow<List<ArticleModelRoom>> {
                 return if (category == 0) {
-                    articleDao.getAllArticlesPaged()
+                    articleDao.getAllArticlesPaged(pageNumber*ARTICLES_PER_PAGE)
                 } else {
-                    articleDao.getArticlesByCategory(category.toString())
+                    articleDao.getArticlesByCategory(category.toString(), pageNumber*ARTICLES_PER_PAGE)
                 }
             }
 

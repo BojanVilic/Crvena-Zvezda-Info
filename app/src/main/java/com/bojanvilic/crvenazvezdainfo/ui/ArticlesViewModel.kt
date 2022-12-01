@@ -8,8 +8,8 @@ import com.bojanvilic.crvenazvezdainfo.util.Resource
 import com.bojanvilic.crvenazvezdainfo.util.savedStateCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -20,13 +20,22 @@ constructor(
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    val articlesList: Flow<Resource<List<ArticleModelRoom>>> =
+    var pager = MutableStateFlow(1)
+
+    var articlesList: Flow<Resource<List<ArticleModelRoom>>> =
         savedStateHandle.getStateFlow(savedStateCategory, initialValue = 0)
             .flatMapLatest { category ->
-                articleRepository.getLatestArticlesByCategory(category)
+                pager.flatMapLatest { pageNumber ->
+                    articleRepository.getLatestArticlesByCategory(category, pageNumber)
+                }
             }
 
     fun setCurrentCategory(categoryIntValue: Int) {
         savedStateHandle[savedStateCategory] = categoryIntValue
+    }
+
+    fun fetchNextPage() {
+        Timber.d("PROBA: ${pager.value}")
+        pager.tryEmit(pager.value+1)
     }
 }

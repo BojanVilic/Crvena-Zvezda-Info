@@ -37,6 +37,7 @@ fun ArticlesScreen(
     onArticleClicked: (Int) -> Unit
 ) {
     val articles = articlesViewModel.articlesList.collectAsState(initial = Resource.success(listOf()))
+    val currentPage = articlesViewModel.pager.collectAsState()
 
     Box {
         LazyColumn {
@@ -47,6 +48,10 @@ fun ArticlesScreen(
                         onArticleClicked = {
                             onArticleClicked(it)
                         })
+                } else if (index == articles.value.data.size-1) {
+                    if (articles.value.status != Status.LOADING) {
+                        articlesViewModel.fetchNextPage()
+                    }
                 } else {
                     ArticleContent(
                         articles.value.data[index],
@@ -56,9 +61,20 @@ fun ArticlesScreen(
                     )
                 }
             }
+            item {
+                if (articles.value.status == Status.LOADING && currentPage.value > 1) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+            }
         }
 
-        if (articles.value.status == Status.LOADING) {
+        if (articles.value.status == Status.LOADING && currentPage.value == 1) {
             Snackbar(
                 modifier = Modifier
                     .padding(8.dp)
