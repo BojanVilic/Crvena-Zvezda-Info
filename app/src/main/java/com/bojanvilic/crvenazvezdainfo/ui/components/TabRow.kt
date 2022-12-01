@@ -1,35 +1,32 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.bojanvilic.crvenazvezdainfo.ui.components
 
+import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
+import com.bojanvilic.crvenazvezdainfo.theme.AppTheme
 import com.bojanvilic.crvenazvezdainfo.ui.TopLevelDestinations
 
 @Composable
@@ -40,7 +37,7 @@ fun TabRow(
 ) {
     Surface(
         Modifier
-            .height(TabHeight)
+            .height(TopBarHeight)
             .fillMaxWidth()
     ) {
         Row(Modifier.selectableGroup()) {
@@ -80,7 +77,7 @@ private fun Tab(
         modifier = Modifier
             .padding(vertical = 16.dp, horizontal = 12.dp)
             .animateContentSize()
-            .height(TabHeight)
+            .height(TopBarHeight)
             .selectable(
                 selected = selected,
                 onClick = onSelected,
@@ -101,32 +98,28 @@ private fun Tab(
     }
 }
 
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-fun DetailsTopBar(
-    onBackClicked: () -> Unit
-) {
-    Surface(
-        Modifier
-            .height(TabHeight)
-            .shadow(elevation = 8.dp)
-            .zIndex(1f)
-            .fillMaxWidth()
-    ) {
-        Row(modifier = Modifier) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                contentDescription = "Back",
-                modifier = Modifier
-                    .padding(16.dp)
-                    .clickable {
-                        onBackClicked()
-                    }
-            )
-        }
+fun TabRowPreview() {
+    AppTheme {
+        TabRow(TopLevelDestinations.values().toList(),
+            {},
+            TopLevelDestinations.Home
+        )
     }
 }
 
-private val TabHeight = 56.dp
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable
+fun DetailsTopBarPreview() {
+    AppTheme {
+        DetailsTopBar({}, {}, null)
+    }
+}
+
+val TopBarHeight = 56.dp
 private const val InactiveTabOpacity = 0.60f
 private const val TabFadeInAnimationDuration = 150
 private const val TabFadeInAnimationDelay = 200

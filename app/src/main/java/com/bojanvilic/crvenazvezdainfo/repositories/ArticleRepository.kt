@@ -80,7 +80,8 @@ class ArticleRepository @Inject constructor(
                                 content = element.content.article_text,
                                 imageUrl = element._embedded.wpFeaturedmedia[0].source_url,
                                 category = element.categories[0].toString(),
-                                excerpt = element.excerpt.rendered
+                                excerpt = element.excerpt.rendered,
+                                link = element.link
                             )
                         )
                     }
@@ -125,7 +126,8 @@ class ArticleRepository @Inject constructor(
                         content = it.content.article_text,
                         imageUrl = it._embedded.wpFeaturedmedia[0].source_url,
                         category = it.categories[0].toString(),
-                        excerpt = it.excerpt.rendered
+                        excerpt = it.excerpt.rendered,
+                        link = it.link
                     )
                 }
             }

@@ -30,32 +30,17 @@ fun AppTheme(
 
 private val lightThemeColors = lightColorScheme(
     primary = light_theme_primary,
-//    onPrimary = md_theme_light_onPrimary,
-//    primaryContainer = md_theme_light_primaryContainer,
-//    onPrimaryContainer = md_theme_light_onPrimaryContainer,
     secondary = light_theme_secondary,
-//    onSecondary = md_theme_light_onSecondary,
-//    secondaryContainer = md_theme_light_secondaryContainer,
-//    onSecondaryContainer = md_theme_light_onSecondaryContainer,
     tertiary = light_theme_tertiary,
-//    onTertiary = md_theme_light_onTertiary,
-//    tertiaryContainer = md_theme_light_tertiaryContainer,
-//    onTertiaryContainer = md_theme_light_onTertiaryContainer,
     error = light_theme_error,
     errorContainer = light_theme_errorContainer,
     onError = light_theme_onError,
     onErrorContainer = light_theme_onErrorContainer,
     background = light_theme_background,
     onBackground = light_theme_onBackground,
-//    surface = md_theme_light_surface,
-//    onSurface = light_theme_onSurface,
     surfaceVariant = light_theme_surfaceVariant,
-    onSurfaceVariant = light_theme_onSurfaceVariant,
-//    outline = md_theme_light_outline,
-//    inverseOnSurface = md_theme_light_inverseOnSurface,
-//    inverseSurface = md_theme_light_inverseSurface,
-//    inversePrimary = md_theme_light_inversePrimary,
-//    surfaceTint = md_theme_light_surfaceTint
+    surfaceTint = light_theme_surfaceTint,
+    onSurfaceVariant = light_theme_onSurfaceVariant
 )
 
 private val darkThemeColors = darkColorScheme(
@@ -68,6 +53,7 @@ private val darkThemeColors = darkColorScheme(
     onErrorContainer = dark_theme_onErrorContainer,
     background = dark_theme_background,
     onBackground = dark_theme_onBackground,
+    surfaceTint = dark_theme_surfaceTint,
     surfaceVariant = dark_theme_surfaceVariant,
     onSurfaceVariant = dark_theme_onSurfaceVariant,
     inverseSurface = dark_theme_inverseSurface,

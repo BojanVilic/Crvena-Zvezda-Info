@@ -15,7 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bojanvilic.crvenazvezdainfo.theme.AppTheme
-import com.bojanvilic.crvenazvezdainfo.ui.components.DetailsTopBar
 import com.bojanvilic.crvenazvezdainfo.ui.components.TabRow
 import com.bojanvilic.crvenazvezdainfo.ui.navigation.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,11 +48,6 @@ fun CrvenaZvezdaInfoApp() {
                         },
                         currentScreen = currentScreen
                     )
-                } else {
-                    DetailsTopBar(
-                        onBackClicked = {
-                            navController.navigateUp()
-                        })
                 }
             }
         ) { innerPadding ->
@@ -77,6 +71,6 @@ fun AppNavHost(
         basketballScreen(navController)
         otherScreen(navController)
         serbiaScreen(navController)
-        articleDetailsScreen()
+        articleDetailsScreen(onBackClicked = { navController.navigateUp() })
     }
 }

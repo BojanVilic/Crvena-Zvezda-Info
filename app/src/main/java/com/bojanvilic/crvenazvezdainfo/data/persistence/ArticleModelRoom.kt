@@ -14,5 +14,6 @@ data class ArticleModelRoom(
     val content: String? = "",
     val imageUrl: String? = "",
     val category: String? = "",
-    val excerpt: String? = ""
+    val excerpt: String? = "",
+    val link: String? = ""
 ) : Serializable

@@ -11,7 +11,8 @@ data class ArticleEntity(
     val content: Content,
     val _embedded: Embedded,
     val categories: List<Int>,
-    val excerpt: Excerpt
+    val excerpt: Excerpt,
+    val link: String
 ): Serializable
 
 data class Title (
