@@ -8,10 +8,12 @@ import java.io.Serializable
 data class ArticleModelRoom(
 
     @PrimaryKey
-    val id: Int,
-    val date: String,
-    val title: String,
-    val content: String,
-    val imageUrl: String,
-    val category: String
+    val id: Int? = 0,
+    val date: String? = "",
+    val title: String? = "",
+    val content: String? = "",
+    val imageUrl: String? = "",
+    val category: String? = "",
+    val excerpt: String? = "",
+    val link: String? = ""
 ) : Serializable

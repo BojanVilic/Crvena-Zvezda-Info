@@ -1,83 +1,76 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.bojanvilic.crvenazvezdainfo.ui
 
 import android.os.Bundle
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import android.view.Menu
-import androidx.fragment.app.FragmentManager
-import com.bojanvilic.crvenazvezdainfo.R
-import com.bojanvilic.crvenazvezdainfo.koin.appModule
-import com.google.android.gms.ads.MobileAds
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.bojanvilic.crvenazvezdainfo.theme.AppTheme
+import com.bojanvilic.crvenazvezdainfo.ui.components.TabRow
+import com.bojanvilic.crvenazvezdainfo.ui.navigation.*
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainPageActivity : AppCompatActivity() {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
-    companion object {
-        const val VIEW: String = "VIEW"
-    }
+@AndroidEntryPoint
+class MainPageActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_page)
-
-        startKoin {
-            androidLogger()
-            androidContext(this@MainPageActivity)
-            modules(appModule)
+        setContent {
+            CrvenaZvezdaInfoApp()
         }
-
-        MobileAds.initialize(this) {}
-
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home,
-                R.id.nav_football,
-                R.id.nav_basketball,
-                R.id.nav_other,
-                R.id.nav_serbia,
-                R.id.nav_contact,
-                R.id.nav_shop
-            ), drawerLayout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
     }
+}
 
-    override fun onDestroy() {
-        super.onDestroy()
-        stopKoin()
+@Composable
+fun CrvenaZvezdaInfoApp() {
+    AppTheme {
+        val allScreens = TopLevelDestinations.values().toList()
+        val navController = rememberNavController()
+        val backstackEntry = navController.currentBackStackEntryAsState()
+        val currentScreen: TopLevelDestinations? = TopLevelDestinations.fromRoute(backstackEntry.value?.destination?.route)
+
+        Scaffold(
+            topBar = {
+                if (currentScreen != null) {
+                    TabRow(
+                        allScreens = allScreens,
+                        onTabSelected = { screen ->
+                            navController.navigate(screen.route)
+                        },
+                        currentScreen = currentScreen
+                    )
+                }
+            }
+        ) { innerPadding ->
+            AppNavHost(navController, modifier = Modifier.padding(innerPadding))
+        }
     }
+}
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main_page, menu)
-        return true
+@Composable
+fun AppNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    NavHost(
+        navController = navController,
+        startDestination = TopLevelDestinations.Home.route,
+        modifier = modifier
+    ) {
+        homeScreen(navController)
+        footballScreen(navController)
+        basketballScreen(navController)
+        otherScreen(navController)
+        serbiaScreen(navController)
+        articleDetailsScreen(onBackClicked = { navController.navigateUp() })
     }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
 }
