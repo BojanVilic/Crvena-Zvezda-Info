@@ -4,14 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDao {
 
     @Insert
-    fun insert(articleRoomRoom: ArticleModelRoom) : Completable
+    fun insert(articleRoomRoom: ArticleModelRoom)
 
     @Query("SELECT * FROM articles_table WHERE id != :currentArticleId ORDER BY date DESC Limit 6")
     fun getRecommendedArticles(currentArticleId: String) : Flow<List<ArticleModelRoom>>

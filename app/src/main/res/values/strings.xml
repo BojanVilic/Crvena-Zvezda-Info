@@ -1,27 +1,13 @@
 <resources>
     <string name="app_name">Crvena Zvezda Info</string>
     <string name="title_activity_main_page">Crvena zvezda info</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Crvena zvezda info</string>
-    <string name="nav_header_subtitle">sbdesignserbia@gmail.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <string name="menu_home">Naslovna</string>
     <string name="menu_football">Fudbal</string>
     <string name="menu_basketball">Košarka</string>
     <string name="menu_other">Ostalo</string>
     <string name="menu_serbia">Srbija</string>
-    <string name="menu_contact">Kontakt</string>
-    <string name="menu_shop">Shop</string>
 
     <string name="label_refreshing">Osvežavanje…</string>
     <string name="share_chose_app_label">Odaberite Aplikaciju</string>
-
-    <string name="contact_intro_string">Ovde možete da se obratite našim administratorima. Popunite polja ispod sa vašim predlogom, ponudom ili pitanjem.</string>
-    <string name="name_contact_hint">Vaše ime (obavezno):</string>
-    <string name="email_contact_hint">Vaša email adresa (obavezno):</string>
-    <string name="subject_contact_hint">Predmet:</string>
-    <string name="message_contact_hint">Vaša poruka:</string>
 </resources>
