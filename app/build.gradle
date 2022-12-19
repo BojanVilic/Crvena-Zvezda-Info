@@ -22,7 +22,7 @@ android {
         applicationId "com.bojanvilic.crvenazvezdainfo"
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 10
+        versionCode 11
         versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
